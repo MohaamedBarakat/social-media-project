@@ -11,7 +11,7 @@ const Signup = () => {
         e.preventDefault();
     const userData = {username ,email,password,confirmPassword};
         console.log(userData);
-        fetch('url',{
+        fetch('http://localhost:4000/signup',{
             method:'PUT',
             headers:{"Content-Type":"application/json"},
             body: JSON.stringify(userData)
@@ -20,7 +20,13 @@ const Signup = () => {
             if(!res.ok){
                 throw Error('We could not Register you , Please try again later')
             }
+            //console.log(res.json());
+            return res.json();
 
+        })
+        .then(data => {
+            setError('');
+            console.log(data);
         })
         .catch(error =>{
             console.log(error);

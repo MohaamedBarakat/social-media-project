@@ -4,14 +4,14 @@ import Signup from "./components/Signup";
 import { useState } from "react";
 import StartPage from "./components/Start";
 function App() {
-  const [style ,setStyle] = useState({ 
+  /*const [style ,setStyle] = useState({ 
     backgroundColor: '',
     width: '100%',
     height: '100vh'
-   });
+   });*/
   return (
     <Router>
-        <div style={style} >
+        <div className='app' >
               <Navbar />
           <div className="content" >
             <Switch>
