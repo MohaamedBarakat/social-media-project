@@ -15,7 +15,8 @@ const userSchema = new Schema({
         required: true
     },
     posts: [{
-        type: String
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
     }]
 }, { timestamps: true });
 module.exports = mongoose.model('User', userSchema);

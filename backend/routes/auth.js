@@ -6,7 +6,10 @@ const express = require('express');
 
 const { body } = require('express-validator/check');
 
+const isAuth = require('../middleware/is-auth');
+
 const router = express.Router();
+
 router.put('/signup', [
     body('email', "Invalid Email")
     .trim()
@@ -38,9 +41,26 @@ router.put('/signup', [
         }
         return true;
     })
+], authController.signup);
 
+router.post('/login', [
+    body('email', 'Invalid email')
+    .trim()
+    .isEmail()
+    .custom(async(value) => {
+        const user = await User.findOne({ email: value });
+        if (!user) {
+            const error = new Error('Email dose not exist');
+            error.statusCode = 401;
+            throw error;
+        } else { return true; }
 
+    }),
+    body('password', 'Invalid password')
+    .trim()
+    .isLength({ min: 5 })
 
-], authController.putSignup);
+], authController.login);
 
+router.get('/user/:userId', isAuth, authController.user);
 module.exports = router;
