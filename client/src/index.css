@@ -1,0 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+* {
+    margin: 0;
+    font-family: "Quicksand";
+    color: #333;
+}
+
+body {
+    background-image: url('./images/pexels-photo-4050320.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    /* background-color: #f1356d;*/
+}
+
+.navbar {
+    background-color: rgb(255, 248, 235);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    margin: 0 auto;
+    border-bottom: 1px solid #f2f2f2;
+    opacity: 0.8;
+}
+
+.navbar h1 {
+    color: #f1356d;
+}
+
+.navbar .links {
+    margin-left: auto;
+}
+
+.navbar a {
+    margin-left: 16px;
+    text-decoration: none;
+    padding: 6px;
+}
+
+.navbar a:hover {
+    color: #f1356d;
+}
+
+.links li {
+    display: inline-block;
+}
+
+.signup {
+    margin-bottom: 100rem;
+    padding: 3rem;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.signup label {
+    font-weight: bold;
+    color: rgb(206, 206, 206);
+    text-align: left;
+    display: block;
+}
+
+.signup h2 {
+    font-size: 20px;
+    color: #f1356d;
+    margin-bottom: 30px;
+}
+
+.signup input {
+    width: 95%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid rgb(7, 7, 7);
+    box-sizing: border-box;
+    display: block;
+    border-radius: 0.3rem;
+    background: transparent;
+    color: rgb(236, 236, 236);
+}
+
+.signup button {
+    background: #f1356d;
+    color: #fff;
+    border: 0;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.signup input:focus {
+    color: black;
+    width: 100%;
+    background-color: lightgrey;
+    transition: ease-in-out, width .35s ease-in-out;
+}
+
+.signup ::placeholder {
+    color: #946a76;
+}
+
+.error {
+    border-radius: 1rem;
+    background-color: rgb(95, 6, 6);
+}
+
+.error h2 {
+    color: rgb(230, 191, 204);
+}
+
+.login {
+    margin-bottom: 100rem;
+    padding: 3rem;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.login label {
+    font-weight: bold;
+    color: #f1356d;
+    text-align: left;
+    display: block;
+}
+
+.login h2 {
+    font-size: 20px;
+    color: #f1356d;
+    margin-bottom: 30px;
+}
+
+.login input {
+    width: 95%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid rgb(7, 7, 7);
+    box-sizing: border-box;
+    display: block;
+    border-radius: 0.3rem;
+    background: transparent;
+}
+
+.login button {
+    background: #f1356d;
+    color: #fff;
+    border: 0;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.login input:focus {
+    width: 100%;
+    background-color: lightgrey;
+    transition: ease-in-out, width .35s ease-in-out;
+}
+
+
+/* Split the screen in half */
+
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 5;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+
+/* Control the left side */
+
+.left {
+    left: 0;
+    background-color: rgb(212, 212, 212);
+    background-image: url('./images/pexels-cottonbro-5083010.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+
+/* Control the right side */
+
+.right {
+    right: 0;
+    background-color: rgb(216, 207, 190);
+    background-image: url('./images/pexels-photo-2072060.jpeg');
+}
+
+
+/* If you want the content centered horizontally and vertically */
+
+.centered {
+    position: relative;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.logout button {
+    text-decoration: none;
+    background: none;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    margin-left: 16px;
+    text-decoration: none;
+    padding: 6px;
+    font-size: 15px;
+}
+
+.logout button:hover {
+    color: #f1356d;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    background: url(data:;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuNUmK/OAAAAATSURBVBhXY2RgYNgHxGAAYuwDAA78AjwwRoQYAAAAAElFTkSuQmCC) repeat scroll transparent\9;
+    z-index: 9999;
+    color: white;
+    padding: 2rem;
+}
+
+.overlay .content {
+    justify-content: center;
+    text-align: center;
+    display: grid;
+    padding: 5rem;
+    margin: auto;
+}
+
+.overlay .content input {
+    width: 20rem;
+    height: 2rem;
+    background: transparent;
+    border-radius: 1rem;
+    border-color: wheat;
+}
+
+.overlay .content label {
+    color: blanchedalmond;
+}
+
+.profile {
+    justify-content: center;
+    text-align: center;
+}
+
+.profile .profile-image {
+    max-width: 15rem;
+    max-height: 15rem;
+    border-radius: 5rem;
+}
+
+.edit-profile {
+    width: 8rem;
+    height: 4rem;
+    background-color: burlywood;
+    cursor: pointer;
+    border-radius: 1rem;
+    border: none;
+}
+
+.update-profile {
+    width: 10rem;
+    height: 3rem;
+    background-color: wheat;
+}
+
+.close-update {
+    background: transparent;
+    color: rgb(170, 170, 170);
+    cursor: pointer;
+    border: none;
+    width: 2rem;
+    height: 2rem;
+}
+
+.new-post {
+    display: inline-block;
+    margin-top: 1rem;
+    width: 30rem;
+    height: 15vh;
+    background-color: wheat;
+    border-radius: 1rem;
+    justify-content: center;
+    text-align: center;
+}
+
+.new-post .status {
+    margin-top: 2rem;
+    width: 20rem;
+    height: 2rem;
+    background: transparent;
+    border-radius: 2rem;
+    border: solid black;
+}
+
+.new-post button {
+    width: 5rem;
+    height: 2rem;
+    margin-left: 1rem;
+    border-radius: 1rem;
+    border: solid black;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.new-post ::placeholder {
+    text-align: center;
+}
+
+.new-post .file::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.new-post .file::before {
+    margin-top: 1rem;
+    content: 'Select Image';
+    display: inline-block;
+    background: linear-gradient(top, #f9f9f9, #e3e3e3);
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+}
