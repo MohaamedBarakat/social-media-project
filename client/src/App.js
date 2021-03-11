@@ -9,9 +9,24 @@ import Profile from "./components/Profile";
 import PageNotFound from "./components/PageNotFound";
 
 function App() {
-  const [isAuth,setIsAuth] = useState(false);
-  const [token,setToken] = useState(null);
-  const [userId,setUserId]=useState(null);
+  const [isAuth , setIsAuth] = useState(false);
+  const [token , setToken] = useState(null);
+  const [userId , setUserId]=useState(null);
+  const [isEdit , setIsEdit] =useState(false);
+  const [name , setName] = useState('');
+  const [oldPassword , setOldPassword] = useState('');
+  const [password , setPassword] = useState('');
+  const [confirmPassword , setConfirmPassword] = useState('');
+  const [newPost , setNewPost] = useState('');
+  const [postImage , setPostImage] = useState('');
+  const [posts , setPosts] = useState([{}]);
+  const [email , setEmail] = useState('');
+  const [error , setError] = useState(null);
+  const [isEditPost , setIsEditPost] = useState(false);
+  const [editPost , setEditPost] = useState('');
+  const [username , setUsername] = useState('');
+  const [postId , setPostId] = useState(''); 
+  const [isPending , setIsPending] = useState(false);
   //const history = useHistory();
   
   useEffect(() => {
@@ -52,7 +67,7 @@ function App() {
               </Route>
 
               <Route exact path = "/home">
-                <Home />
+                <Home newPost={newPost} setNewPost={setNewPost} setPosts={setPosts} setPostImage={setPostImage}/>
               </Route>
 
               <Route exact path = "/profile">

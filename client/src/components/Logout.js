@@ -2,7 +2,8 @@ import { useHistory } from "react-router-dom";
 
 const Logout = (props) => {
     const history = useHistory();
-    const handleLogout = () =>{
+    const handleLogout = (e) =>{
+        e.preventDefault();
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         props.setIsAuth(false);
@@ -11,7 +12,9 @@ const Logout = (props) => {
     }
     return ( 
         <div className="logout">
-           <button className="btn" onClick={handleLogout}>Logout</button>
+            <form onSubmit={handleLogout}>
+            <button className="btn">Logout</button>
+            </form>
         </div>
      );
 }

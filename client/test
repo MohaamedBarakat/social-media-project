@@ -1,0 +1,89 @@
+ <div className="profile">
+            <div>
+                <img src={photo} alt="Photot" className="profile-image" />
+            </div>
+            {isEdit && <div className="overlay">
+            <button className="close-update" onClick={handleClose}>X</button>
+                <div className="content">
+                    <form onSubmit={handleEditProfile}>
+                        <label>Name</label>
+                        <input  type="text" 
+                                value={name} 
+                                onChange={(e)=>setName(e.target.value)}/>
+                        <label>Old Password</label>
+                        <input  type="text"
+                                value={oldPassword} onChange={(e)=>setOldPassword(e.target.value)}/>
+                        <label>New Password</label>
+                        <input  type="text"
+                                value={password} 
+                                onChange={(e)=>setPassword(e.target.value)}/>
+                        <button className="update-profile">Update Profile</button>
+                    </form>
+                 </div>  
+            </div>}
+
+            <div>
+            <button className="edit-profile" onClick={handleIsEditProfile}>Edit profile</button>
+            </div>
+            <div className="new-post">
+
+                <form onSubmit = {handleNewPost}>
+
+                <textarea className='status' type="text"
+                        value={newPost}
+                        placeholder = "What's on your mind !"
+                        onChange={(e) => setNewPost(e.target.value)}
+                
+                />
+                <input className='file' type="file" onChange={(e) => setPostImage(e.target.files[0])} />
+
+                <button>Post !</button>
+
+                </form>
+
+
+                {!posts && <p>No posts</p>}
+
+                {posts && posts.map( (post) =>
+                <div className="post-content" key={post._id}>
+                        <button className="btn-edit-post" onClick={handleEditPost}>...</button>
+                        <button className="btn-delete-post" onClick={()=>{handleDeletePost(post._id)}}>X</button>
+                        <p>{post.createdAt}</p>
+                        <li>{post.content}</li>
+                        {isEditPost && <div className="overlay">
+                <div className="content-edit-post">
+                    <button className="close-update" onClick={handleClose}>X</button>
+                    <form onSubmit={handleEditPost}>
+                        <label>Edit Post</label>
+                        <textarea  type="text" 
+                                value={editPost} 
+                                onChange={(e)=>setEditPost(e.target.value)}/>
+                        <button className="update-post">Update Post</button>
+                    </form>
+                 </div>  
+                </div>
+                }
+                </div>
+                )}
+               
+            </div>
+
+        </div>
+
+
+
+
+        <div className="edit-post">
+            <div className="overlay">
+                    <form onSubmit={handleEditPost}>
+                    <button onClick={handleClose}>X</button>
+                        <label>Edit Post</label>
+                        <textarea   type="text" 
+                                    value={editPost} 
+                                    onChange={(e)=>setEditPost(e.target.value)}>
+
+                        </textarea>
+                        <button>Update Post</button>
+                    </form>
+            </div>
+        </div>
