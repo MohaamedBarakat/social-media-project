@@ -86,7 +86,7 @@ exports.login = (req, res, next) => {
             return jwt.sign({
                 email: email,
                 userId: loadedUser._id.toString()
-            }, process.env.PRIVATE_KEY_TOKEN, { expiresIn: '0.5h' })
+            }, process.env.PRIVATE_KEY_TOKEN, { expiresIn: '2h' })
         })
         .then(token => {
             if (!token) {
@@ -107,6 +107,6 @@ exports.login = (req, res, next) => {
 }
 exports.user = (req, res, next) => {
     const userId = req.params.userId;
-    console.log(userId);
+    //console.log(userId);
     res.status(200).json({ userId });
 }

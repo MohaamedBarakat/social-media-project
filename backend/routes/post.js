@@ -16,4 +16,14 @@ router.put('/new-post', isAuth, [
 
 router.get('/posts', isAuth, postController.getUserPosts);
 
+router.delete('/post/:postId', isAuth, postController.deletePost);
+
+router.get('/post/:postId', isAuth, postController.getEditPost);
+
+router.patch('/post/:postId', isAuth, [
+    body('content', 'Invalid post content')
+    .trim()
+    .isLength({ min: 1 })
+], postController.patchEditPost);
+
 module.exports = router;
