@@ -1,12 +1,16 @@
-import {useEffect} from 'react';
+import {useState,useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
-const Home = () => {
+import NewPost from './NewPost';
+const Home = (props) => {
+    const [newPost,setNewPost] = useState('');
     const history = useHistory();
     useEffect(() => {
         history.push('/home');
     }, )
     return ( 
-        <div className="home">Welcome</div>
+        <div className="home">Welcome
+        <NewPost newPost={props.newPost} setNewPost={props.setNewPost} setPosts={props.setPosts} setPostImage={props.setPostImage}/>
+        </div>
      );
 }
  
