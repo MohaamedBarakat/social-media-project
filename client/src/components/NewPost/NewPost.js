@@ -1,16 +1,20 @@
+import { useState } from "react";
+import './NewPost.css'
 const  NewPost= ({newPost,setNewPost,setPosts,setPostImage}) => {
+    const [postClick,setPostClick] = useState(false);
+    const [image,setImage] = useState();
+    const formData = new FormData();
     const handleNewPost = (e) => {
+        formData.append('content',newPost);
+        formData.append('image',image);
         e.preventDefault();
-        console.log('helllo')
+        setPostClick(true);
         fetch('http://localhost:4000/new-post',{
             method:'PUT',
             headers:{
-                'Content-Type':'application/json',
                 Authorization:`Bearer ${localStorage.getItem('token')}`
             },
-            body:JSON.stringify({
-                content:newPost
-            })
+            body:formData
         })
         .then(res => {
             console.log(newPost);
@@ -19,6 +23,7 @@ const  NewPost= ({newPost,setNewPost,setPosts,setPostImage}) => {
         .then(res =>{
             setPosts(res.posts.reverse());
             setNewPost('');
+            setPostClick(false);
         })
         .catch(err => {
             console.log(err);
@@ -28,12 +33,17 @@ const  NewPost= ({newPost,setNewPost,setPosts,setPostImage}) => {
         <div className="new-post">
             <form onSubmit = {handleNewPost}>
                 <textarea   type="text"
+                            className="new-post-textarea"
                             value={newPost}
                             placeholder = "What's on your mind !"
                             onChange={(e) => setNewPost(e.target.value)}
-                ></textarea>
-                <input type='file'/>
-                <button> Post !</button>
+                    >
+                </textarea>
+                <input  type='file'
+                        className="new-post-input"
+                        onChange={(e)=> setImage(e.target.files[0])} />
+                {postClick && <button className="new-post-btn" disabled style={{backgroundColor:'gray',border:'solid gray'}}> Post !</button>}
+                {!postClick && <button className="new-post-btn"> Post !</button>}
             </form>
         </div>
     );

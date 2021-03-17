@@ -1,7 +1,7 @@
 import { useState } from "react";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import {useHistory} from 'react-router-dom';
-
+import './Signup.css';
 const Signup = () => {
     const history = useHistory();
     const [isPending , setIsPending] = useState(false);
@@ -46,7 +46,7 @@ const Signup = () => {
         <div>
             <div className="split left">
                 <div className="centered">
-                    <h2>Jane Flex</h2>
+                    <h2>Welcome</h2>
                 </div>
             </div>
 

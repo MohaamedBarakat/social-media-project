@@ -1,56 +1,32 @@
-import Navbar from "./components/Navbar";
-import { BrowserRouter as Router , Route ,Switch } from 'react-router-dom';
-import Signup from "./components/Signup";
+import Navbar from "./components/Navbar/Navbar";
+import { BrowserRouter as Router , Route ,Switch,useHistory } from 'react-router-dom';
+import Signup from "./components/Signup/Signup";
 import StartPage from "./components/Start";
-import Login from "./components/Login";
+import Login from "./components/Login/Login";
 import Home from "./components/Home";
+import SinglePost from "./components/SinglePost/SinglePost"
 import { useState,useEffect } from "react";
-import Profile from "./components/Profile";
+import Profile from "./components/Profile/Profile";
 import PageNotFound from "./components/PageNotFound";
 
 function App() {
   const [isAuth , setIsAuth] = useState(false);
-  const [token , setToken] = useState(null);
-  const [userId , setUserId]=useState(null);
-  const [isEdit , setIsEdit] =useState(false);
-  const [name , setName] = useState('');
-  const [oldPassword , setOldPassword] = useState('');
-  const [password , setPassword] = useState('');
-  const [confirmPassword , setConfirmPassword] = useState('');
   const [newPost , setNewPost] = useState('');
   const [postImage , setPostImage] = useState('');
   const [posts , setPosts] = useState([{}]);
-  const [email , setEmail] = useState('');
-  const [error , setError] = useState(null);
-  const [isEditPost , setIsEditPost] = useState(false);
-  const [editPost , setEditPost] = useState('');
-  const [username , setUsername] = useState('');
-  const [postId , setPostId] = useState(''); 
-  const [isPending , setIsPending] = useState(false);
-  //const history = useHistory();
-  
+  const [searchInput,setSearchInput] =useState('');
+  const history = useHistory();
   useEffect(() => {
-    //history.go(0);
-    //console.log(isAuth,token,userId);
-    setUserId(localStorage.getItem('userId'));
-    setToken(localStorage.getItem('token'));
-    if(userId){
+    if(localStorage.getItem('userId') !== null){
       setIsAuth(true);
-      fetch('http://localhost:4000/user/' + userId,{
-        method:'GET',
-        headers:{
-          'Authorization':'Bearer ' + token
-        }
-      })
-    }
-  },[userId,isAuth,token]);
-    
-    
-  
+    }else {
+      setIsAuth(false);    }
+      
+  })
   return (
     <Router>
         <div className='app' >
-              <Navbar isAuth={isAuth} setIsAuth={setIsAuth} setToken={setToken} setUserId={setUserId} />
+              <Navbar isAuth={isAuth} setIsAuth={setIsAuth}  />
           <div className="content" >
             <Switch>
 
@@ -63,20 +39,27 @@ function App() {
               </Route>
 
               <Route exact path = "/login">
-                <Login setIsAuth={setIsAuth} setToken={setToken} setUserId={setUserId}/>
+                <Login setIsAuth={setIsAuth}/>
               </Route>
 
               <Route exact path = "/home">
-                <Home newPost={newPost} setNewPost={setNewPost} setPosts={setPosts} setPostImage={setPostImage}/>
+                <Home newPost={newPost} setNewPost={setNewPost} setPosts={setPosts} setPostImage={setPostImage} searchInput={searchInput} setSearchInput={setSearchInput}/>
               </Route>
 
-              <Route exact path = "/profile">
+              <Route exact path = "/profile/:userId">
                 <Profile />
               </Route>
+              
+              <Route  exact path = "/post/:postId">
+                <SinglePost />
+              </Route>
+
 
               <Route path="*">
                 <PageNotFound />
               </Route>
+
+              
 
             </Switch>
           </div>

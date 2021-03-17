@@ -1,7 +1,7 @@
-const EditPost = ({editPost,setEditPost,setIsEditPost,postId}) => {
+const EditPost = ({editPost,setEditPost,setIsEditPost,postId,posts,setPosts}) => {
 
     const handleClose = ()=>{
-        setIsEditPost(false)
+        setIsEditPost(false);
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
@@ -15,16 +15,27 @@ const EditPost = ({editPost,setEditPost,setIsEditPost,postId}) => {
             }
         })
             .then(res =>{
-                console.log('OK')
+                if(!res.ok){
+                    throw new Error('an error occured');
+                }
+               const newPosts = posts.map(post =>{
+                    if(postId === post._id){
+                        post.content = editPost;
+                    }
+                    return post;
+                })
+                //console.log(newPosts);
+                setPosts(newPosts);
+                setIsEditPost(false);
+
             })
     }
     return ( 
         <div className="overlay">
         
             <button onClick={handleClose} className='close-edit-post'>X</button>
-
+            <label>Edit Post</label>
             <form onSubmit={handleSubmit}>
-                <label>Edit Post</label>
                 <textarea   onChange={(e) => setEditPost(e.target.value)}
                             value={editPost}
                             className='textarea-edit-post'

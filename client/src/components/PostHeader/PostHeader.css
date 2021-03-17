@@ -1,0 +1,30 @@
+.header {
+    margin-bottom: 1rem;
+}
+
+.header .creator-image {
+    margin: 0.2rem;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    float: left;
+}
+
+.header p,
+.btn-delete-post,
+.btn-edit-post {
+    display: inline-block;
+    margin: 0.5rem;
+}
+
+.header p {
+    color: white;
+}
+
+.header a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}

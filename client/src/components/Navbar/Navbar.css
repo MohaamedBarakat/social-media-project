@@ -1,0 +1,35 @@
+.navbar {
+    display: flex;
+    background-color: wheat;
+    padding: 0.7rem;
+}
+
+.navbar h1 {
+    color: #f1356d;
+    padding: 1rem;
+}
+
+.navbar a {
+    margin-left: 16px;
+    text-decoration: none;
+    padding: 6px;
+    outline: none;
+}
+
+.navbar a:hover {
+    color: #f1356d;
+}
+
+.navbar .navbar-links {
+    margin-left: auto;
+}
+
+.navbar .navbar-links li {
+    display: inline-block;
+}
+
+.navbar a {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}

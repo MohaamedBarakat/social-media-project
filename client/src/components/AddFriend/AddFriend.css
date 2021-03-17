@@ -1,0 +1,18 @@
+.add-friend {
+    position: relative;
+    display: block;
+}
+
+.add-friend button {
+    background-color: rgb(0, 1, 39);
+    color: white;
+    font-weight: bold;
+    width: 10rem;
+    height: 3rem;
+    border: solid rgb(216, 216, 216);
+    border-radius: 0.5rem;
+    text-align: center;
+    left: 46%;
+    cursor: pointer;
+    margin: 1rem auto;
+}

@@ -1,0 +1,11 @@
+.comment-list {
+    background-color: white;
+}
+
+.comment-details a {
+    text-decoration: none;
+}
+
+.comment-details-manipulation {
+    display: inline-block;
+}

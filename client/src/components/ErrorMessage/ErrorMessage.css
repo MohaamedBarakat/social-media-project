@@ -1,0 +1,8 @@
+.error {
+    border-radius: 1rem;
+    background-color: rgb(95, 6, 6);
+}
+
+.error h2 {
+    color: rgb(230, 191, 204);
+}

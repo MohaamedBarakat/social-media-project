@@ -1,6 +1,7 @@
 import { useState } from "react";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import {useHistory} from "react-router-dom";
+import './Login.css';
 const Login = (props) => {
     const history = useHistory();
     const [email,setEmail] = useState('');
@@ -18,18 +19,24 @@ const Login = (props) => {
                 password:password
             })
         })
-        .then(res => {
-            console.log(res);
-            return res.json();
+        .then(async(res) => {
+            let jsonData = await res.json();
+               
+            return {res:res , data : jsonData}
         })
-        .then(data => {
+        .then(result => {
+            const res = result.res;
+            const data = result.data;
+            //console.log(res ,data);
+            if(!res.ok){
+                throw new Error(data.error.message);
+            }
+            //console.log(res);
             setError('');
             localStorage.setItem('token',data.token);
             localStorage.setItem('userId',data.userId);
-            props.setToken(data.token);
             props.setIsAuth(true);
-            props.setUserId(data.userId);
-            console.log(data);
+            //console.log(data);
             history.push('/home');
         })
         .catch(err => {
@@ -37,7 +44,8 @@ const Login = (props) => {
         })
     }
     return ( 
-        <div className="login">
+        <div className="login-page">
+            <div className="login">
             {error && <ErrorMessage error={error}/>}       
             <h2> Login </h2>
             <form onSubmit={handleSubmit}>
@@ -60,6 +68,8 @@ const Login = (props) => {
                 <button>Login</button>
             </form>
         </div>
+        </div>
+        
      );
 }
  
