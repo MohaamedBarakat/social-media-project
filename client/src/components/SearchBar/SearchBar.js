@@ -9,6 +9,7 @@ const SearchBar = ({searchInput,setSearchInput}) => {
             //console.log(searchInput);
             if(searchInput.length > 0){
                 document.getElementById("search-bar-link").style.display ='block';
+                document.getElementById("search-result").style.display ='block';
                 fetch('http://localhost:4000/users/search',{
                     method:'POST',
                     body:JSON.stringify({users:searchInput}),
@@ -24,19 +25,24 @@ const SearchBar = ({searchInput,setSearchInput}) => {
                 .then(usersData=>{
                     setUsers(usersData.users);
                     console.log(usersData.users);
-                })
+                })  
                 .catch(err =>{
                     console.log(err);
                 })
     
             }else{
                 document.getElementById("search-bar-link").style.display ='none';
-
+                document.getElementById("search-result").style.display ='none';
             }
           
     }
     const handleExitSearch = () => {
         document.getElementById("search-bar-link").style.display ='none';
+        document.getElementById("search-result").style.display ='none';
+
+        
+        setSearchInput('');
+
 
     }
     return ( 
@@ -49,11 +55,12 @@ const SearchBar = ({searchInput,setSearchInput}) => {
                     className='search-input'
                     placeholder="Search for users"
                     />
-            <div className="search-result">
-                <div id='search-bar-link' style={{display:'none'}}> 
+            <div className="search-result" id='search-result' style={{display:'none'}}>
                 <button className='exit-search' onClick={handleExitSearch}>X</button>
+                <div id='search-bar-link' style={{display:'none'}}> 
                     {users.map(user =>
-                        <li><Link style={{textDecoration:'none'}} to={`/profile/${user._id}`}>{user.username}</Link></li>
+
+                        <li key={user._id}><Link style={{textDecoration:'none'}} to={`/profile/${user._id}`}><img className='search-bar-image' src={`http://localhost:4000/${user.image}`}/><p className='search-bar-p'>{user.username}</p></Link></li>
                             )
                     }
                     

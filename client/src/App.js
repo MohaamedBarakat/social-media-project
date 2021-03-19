@@ -3,13 +3,15 @@ import { BrowserRouter as Router , Route ,Switch,useHistory } from 'react-router
 import Signup from "./components/Signup/Signup";
 import StartPage from "./components/Start";
 import Login from "./components/Login/Login";
-import Home from "./components/Home";
+import Home from "./components/Feeds/Home";
 import SinglePost from "./components/SinglePost/SinglePost"
 import { useState,useEffect } from "react";
 import Profile from "./components/Profile/Profile";
 import PageNotFound from "./components/PageNotFound";
+import Requests from "./components/Requests/Requests";
 
 function App() {
+  const [isFriend,setIsFriend] = useState(false);
   const [isAuth , setIsAuth] = useState(false);
   const [newPost , setNewPost] = useState('');
   const [postImage , setPostImage] = useState('');
@@ -47,11 +49,15 @@ function App() {
               </Route>
 
               <Route exact path = "/profile/:userId">
-                <Profile />
+                <Profile isFriend={isFriend} setIsFriend={setIsFriend}/>
               </Route>
               
               <Route  exact path = "/post/:postId">
                 <SinglePost />
+              </Route>
+
+              <Route  exact path = "/requests">
+                <Requests setIsFriend={setIsFriend}/>
               </Route>
 
 

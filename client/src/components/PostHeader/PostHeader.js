@@ -1,26 +1,34 @@
 import './PostHeader.css';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 const PostHeader = ({post,user,setPostId,setPosts,setIsEditPost,setEditPost}) => {
-    const handleDeletePost = (id) => {
-        fetch('http://localhost:4000/post/'+id,{
+    const {userId} = useParams();
+    const handleDeletePost = (postId) => {
+        console.log(userId);
+        fetch(`http://localhost:4000/post/${postId}/user/${userId}`,{
             method:'DELETE',
             headers:{
                 Authorization:`Bearer ${localStorage.getItem('token')}`
             }
         })
         .then(res =>{
+            if(!res.ok){
+                throw new Error('could not delte this post');
+            }
             return res.json();
         })
         .then(data =>{
-            setPosts(data.posts.reverse());
-
+            //console.log(data.posts);
+            setPosts(data.posts);
+            //console.log(data.message);
         })
-        //console.log(id);
+        .catch(err =>{
+            console.log(err);
+        })
     }
 
     const handleEditPost = (postId) => {
         setIsEditPost(true);
-        console.log(postId);
+        //console.log(postId);
         fetch('http://localhost:4000/post/'+postId,
         {
             method:'GET',
@@ -43,10 +51,10 @@ const PostHeader = ({post,user,setPostId,setPosts,setIsEditPost,setEditPost}) =>
     return ( 
             <div className="header">
                 <img className='creator-image' src={`http://localhost:4000/${user.image}`}/>
-                <Link to={`/profile/${post.creator}`}> {user.username} </Link><p> created At {new Date(post.createdAt).toLocaleDateString('en-US')}</p>
+                <Link to={`/profile/${post.creator._id}`}> {user.username} </Link><p> created At {new Date(post.updatedAt).toLocaleDateString('en-US')}</p>
                 
-                {localStorage.getItem('userId') === post.creator  && <button className="btn-delete-post" onClick={()=>{handleDeletePost(post._id)}}>X</button>}
-                {localStorage.getItem('userId') === post.creator && <button className="btn-edit-post" 
+                {localStorage.getItem('userId') === post.creator._id  && <button className="btn-delete-post" onClick={()=>{handleDeletePost(post._id)}}>X</button>}
+                {localStorage.getItem('userId') === post.creator._id && <button className="btn-edit-post" 
                 onClick={()=>{
                     handleEditPost(post._id);
                     setPostId(post._id);

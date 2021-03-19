@@ -6,13 +6,20 @@
     display: block;
 }
 
+.posts-loading {
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    font-size: 4rem;
+}
+
 .post-details {
-    background-color: rgb(0, 1, 39);
+    background-color: rgb(25, 25, 29);
     border: solid rgb(216, 216, 216);
     border-radius: 0.5rem;
     width: 40rem;
     height: auto;
-    margin: 1rem;
+    margin-top: 2rem;
 }
 
 .post-details .btn-delete-post,

@@ -129,7 +129,8 @@ const SinglePost = (props) => {
                     <form onSubmit={handleCommentPost}>
                     <textarea   value={postComment} 
                                 onChange={(e)=>setPostComment(e.target.value)}
-                                placeholder=' Write your comment here !!' />
+                                placeholder=' Write your comment here !!'
+                                className='comment-post-text' />
                     <button className='single-post-comment'>Comment !</button>
                     </form>
                 </div>

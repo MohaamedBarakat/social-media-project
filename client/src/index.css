@@ -6,14 +6,13 @@
 }
 
 body {
-    /*background-image: url('./images/pexels-photo-4050320.jpeg');
-    background-repeat: no-repeat;
+    background-image: url('./images/pexels-philippe-donn-1114690.jpg');
     background-size: cover;
-    background-position: center;*/
-    background-color: white;
-    height: 100vh;
-    width: 100%;
-    /* background-color: #f1356d;*/
+    background-repeat: no-repeat;
+}
+
+button:hover {
+    color: #f1356d;
 }
 
 
@@ -105,34 +104,4 @@ textarea {
     border-radius: 0.5rem;
     width: 8rem;
     height: 2rem;
-}
-
-.profile {
-    background-color: white;
-    height: 150vh;
-}
-
-.profile img {
-    width: 100%;
-    height: auto;
-}
-
-.profile p {
-    text-align: center;
-}
-
-.profile .edit-profile-btn {
-    background-color: rgb(153, 140, 210);
-    width: 10rem;
-    height: 5vh;
-    border: solid tan;
-    border-radius: 0.5rem;
-    font-weight: bold;
-    position: relative;
-    top: 2%;
-    left: 50%;
-    margin: 0 auto;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    cursor: pointer;
 }

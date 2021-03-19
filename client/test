@@ -1,105 +1,32 @@
-<CommentList commentList={commentList} post={post} setCommentList={setCommentList}/>           
-<div className="comment-list">
-            {commentList && commentList.map(comment =>
-                <div className="comment-details"  key={comment._id}>
-                    <Link to={`/profile/${comment.creator._id}`}>{comment.creator.username}</Link>
-                    <div className="comment-manipulation">
-                        {localStorage.getItem('userId') === comment.creator._id && <button className="btn-edit-comment" onClick={()=>handleEditComment(post._id)}>...</button>}
-                        {(localStorage.getItem('userId') === comment.creator._id || localStorage.getItem('userId') === post.creator._id)  && <button className="btn-delete-comment" onClick={()=>{handleDeleteComment(post._id,comment._id)}}>X</button>}
-                    </div>
-                    <p>{comment.message}</p>
-                
-                </div>
-                    
-
-                )}
-        </div>
-        const handleDeleteComment = (postId,commentId) =>{
-        //console.log('comment ',commentId);
-        fetch(`http://localhost:4000/post/${postId}/comment/${commentId}`,{
-            method:'DELETE',
+    useEffect(()=>{
+        fetch(`http://localhost:4000/posts/${userId}`,{
+            method:'GET',
             headers:{
                 Authorization:`Bearer ${localStorage.getItem('token')}`
             }
         })
-        .then(res => {
+        .then(res =>{
             return res.json();
         })
-        .then(data => {
-            setCommentList(data.comments);
+        .then(recivedData =>{
+            //console.log(recivedData.user);
+            //console.log(postsData);
+            setPosts(recivedData.user.posts.reverse());
+            let like = [];
+            posts.map((post,index) => {
+               like.push( post.likes.includes(localStorage.getItem('userId')) );
+            })
+            setlikes(like);
+            setUser(recivedData.user);
+            setIsPending(false);
         })
-    }
-    const handleEditComment = () =>{
+        .catch(err => {
+           console.log(err);
+        })
+    },[isPending]);
 
-    }
-
-    .comment-details {
-    width: 30rem;
-    height: 4rem;
-    background-color: transparent;
-    color: black;
-    font-weight: bold;
-    margin: 1.5rem;
-    border-radius: 0.5rem;
-    border: solid grey;
-    text-align: left;
-    padding: 0.5rem;
-    display: inline-block;
-}
-
-.comment-details .image-comment-creator {
-    margin: 0.1rem;
-    position: relative;
-    width: 30px;
-    height: 30px;
-    overflow: hidden;
-    border-radius: 50%;
-    float: left;
-}
-
-.search-input {
-    color: black;
-    font-size: 20px;
-    font-weight: bold;
-    width: 20rem;
-    height: 5vh;
-    background-color: transparent;
-    border: solid wheat;
-    border-radius: 0.5rem;
-    text-align: center;
-    margin: 20px auto;
-}
-
-.like-post {
-    background-color: white;
-    border-radius: 0.5rem;
-    border: solid lightblue;
-    cursor: pointer;
-    width: 3rem;
-    text-align: center;
-}
-
-.search .search-result {
-    background-color: tan;
-    width: 20rem;
-    margin: 0 auto;
-    padding: 0.2rem;
-    height: auto;
-    border: solid tan;
-    border-radius: 0.5rem;
-}
-
-.search a {
-    color: white;
-}
-
-.search li {
-    display: block;
-    text-align: center;
-    background-color: grey;
-    width: 15rem;
-    border-radius: 0.5rem;
-    margin: 0.5rem;
-    margin: 0.5rem auto;
-    padding: 0.5rem;
-}
+    <div className="comment-details-manipulation">
+                        {localStorage.getItem('userId') === comment.creator._id && <button className="comment-details-manipulation-edit-btn" onClick={()=>handleEditComment(post._id)}>...</button>}
+                        {(localStorage.getItem('userId') === comment.creator._id || localStorage.getItem('userId') === post.creator._id)  && <button className="comment-details-manipulation-edit-btn" onClick={()=>{handleDeleteComment(post._id,comment._id)}}>X</button>}
+                    </div>
+                    <p>{comment.message}</p>

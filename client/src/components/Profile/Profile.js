@@ -4,9 +4,11 @@ import AddFriend from "../AddFriend/AddFriend";
 import NewPost from "../NewPost/NewPost";
 import Posts from "../Posts/Posts";
 import ProfileImage from "../ProfileImage/ProfileImage";
+import Unfriend from "../Unfriend/Unfriend";
 import UpdateProfile from "../UpdateProfile/UpdateProfile";
+import useFetchPost from '../useFeatchPost';
 import './Profile.css';
-const MyProfile = () => {
+const MyProfile = ({isFriend,setIsFriend}) => {
     const {userId} = useParams();
     const [isEdit,setIsEdit] =useState(false);
     const [isEditProfile,setIsEditProfile] =useState(false);
@@ -17,10 +19,10 @@ const MyProfile = () => {
     const [postImage , setPostImage] = useState('');
     const [posts,setPosts] = useState([{likes:[]}]);
     const [userImage,setUserImage] = useState('');
-
+    const {postsData,isPending,error} = useFetchPost(`http://localhost:4000/posts/${userId}`);
     useEffect(()=>{
         console.log(userId);
-        fetch('http://localhost:4000/posts/'+userId,{
+        fetch(`http://localhost:4000/data/user/${userId}`,{
             method:'GET',
             headers:{
                 Authorization:`Bearer ${localStorage.getItem('token')}`
@@ -33,10 +35,13 @@ const MyProfile = () => {
             return res.json();
         })
         .then(data =>{
+
             //console.log(data)
+            if(!isPending){
+                setPosts(postsData);
+            }
             setUserImage(data.user.image);
-            setPosts(data.posts.reverse());
-            setName(data.username);
+            setName(data.user.username);
             //console.log(posts);
         }).catch(err => {
            console.log(err);
@@ -60,14 +65,17 @@ const MyProfile = () => {
             <div>
                 <ProfileImage userImage={userImage}/>
             </div>
+            <p className='profile-username'>{name}</p>
             <div>
-                <AddFriend />
+                <AddFriend isFriend={isFriend} setIsFriend={setIsFriend}/>
             </div>
-            <p><b>{name}</b></p>
+            <div>
+                <Unfriend isFriend={isFriend} setIsFriend={setIsFriend}/>
+            </div>
             {localStorage.getItem('userId') === userId && <button onClick={handleEditProfile} className='edit-profile-image-btn'>Edit profile Image</button>}
             {isEditProfile && <UpdateProfile setIsEditProfile={setIsEditProfile} userImage={userImage} setUserImage={setUserImage}/>}
             <NewPost setPosts={setPosts} newPost={newPost} setNewPost={setNewPost} setPostImage={setPostImage}/>
-            <Posts posts={posts} setPosts={setPosts} />
+            <Posts posts={postsData} isPending={isPending} setPosts={setPosts} />
 
         </div>  
      );

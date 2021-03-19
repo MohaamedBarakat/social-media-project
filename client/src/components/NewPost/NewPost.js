@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useParams } from "react-router";
 import './NewPost.css'
 const  NewPost= ({newPost,setNewPost,setPosts,setPostImage}) => {
+    const {userId} = useParams();
     const [postClick,setPostClick] = useState(false);
     const [image,setImage] = useState();
     const formData = new FormData();
@@ -9,7 +11,7 @@ const  NewPost= ({newPost,setNewPost,setPosts,setPostImage}) => {
         formData.append('image',image);
         e.preventDefault();
         setPostClick(true);
-        fetch('http://localhost:4000/new-post',{
+        fetch(`http://localhost:4000/new-post/user/${userId||localStorage.getItem('userId')}`,{
             method:'PUT',
             headers:{
                 Authorization:`Bearer ${localStorage.getItem('token')}`
@@ -20,8 +22,8 @@ const  NewPost= ({newPost,setNewPost,setPosts,setPostImage}) => {
             console.log(newPost);
             return res.json();
         })
-        .then(res =>{
-            setPosts(res.posts.reverse());
+        .then(data =>{
+            setPosts(data.posts);
             setNewPost('');
             setPostClick(false);
         })

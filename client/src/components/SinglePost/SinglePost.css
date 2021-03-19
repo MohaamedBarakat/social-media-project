@@ -1,5 +1,5 @@
 .single-post {
-    background-color: rgb(0, 1, 39);
+    background-color: rgb(25, 25, 29);
     border: solid rgb(216, 216, 216);
     border-radius: 0.5rem;
     width: 40rem;
@@ -72,7 +72,7 @@
     display: inline-block;
 }
 
-.single-post textarea {
+.comment-post-text {
     width: 25rem;
     height: 5rem;
     border: solid rgb(216, 216, 216);

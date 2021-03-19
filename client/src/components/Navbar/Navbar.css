@@ -1,7 +1,12 @@
 .navbar {
+    margin: 1px;
     display: flex;
-    background-color: wheat;
-    padding: 0.7rem;
+    position: sticky;
+    top: 0%;
+    background-color: rgb(25, 25, 29);
+    opacity: 0.8;
+    padding: 0.5rem;
+    box-shadow: 1px 0px 3px 0px rgb(207, 223, 228);
 }
 
 .navbar h1 {
@@ -20,7 +25,8 @@
     color: #f1356d;
 }
 
-.navbar .navbar-links {
+.navbar,
+.navbar-links {
     margin-left: auto;
 }
 
