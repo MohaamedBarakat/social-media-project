@@ -1,0 +1,41 @@
+.navbar {
+    margin: 1px;
+    display: flex;
+    position: sticky;
+    top: 0%;
+    background-color: rgb(25, 25, 29);
+    opacity: 0.8;
+    padding: 0.5rem;
+    box-shadow: 1px 0px 3px 0px rgb(207, 223, 228);
+}
+
+.navbar h1 {
+    color: #f1356d;
+    padding: 1rem;
+}
+
+.navbar a {
+    margin-left: 16px;
+    text-decoration: none;
+    padding: 6px;
+    outline: none;
+}
+
+.navbar a:hover {
+    color: #f1356d;
+}
+
+.navbar,
+.navbar-links {
+    margin-left: auto;
+}
+
+.navbar .navbar-links li {
+    display: inline-block;
+}
+
+.navbar a {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}

@@ -1,0 +1,90 @@
+.request-body {
+    display: block;
+    position: relative;
+    left: 30%;
+    width: 40rem;
+    height: 5rem;
+    margin: 2rem;
+    border: solid rgb(216, 216, 216);
+    border-radius: 0.5rem;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+    padding: 1rem;
+    background-color: rgb(25, 25, 25);
+}
+
+.request-body-header,
+.request-body-image,
+.request-body-link {
+    display: inline-block;
+    margin: 1rem;
+}
+
+.request-body-link {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    left: 10%;
+}
+
+.request-body-image {
+    border: solid rgb(216, 216, 216);
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 0%;
+    bottom: 8%;
+}
+
+.request-body-confirm,
+.request-body-ignore {
+    display: inline-block;
+    background-color: rgb(25, 25, 29);
+    color: white;
+    font-weight: bold;
+    width: 8rem;
+    height: 3rem;
+    border: solid rgb(216, 216, 216);
+    border-radius: 0.5rem;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.request-body-confirm {
+    position: absolute;
+    left: 45%;
+}
+
+.request-body-ignore {
+    position: absolute;
+    left: 68%;
+}
+
+.requests-no {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin: 2rem;
+    background-color: rgb(25, 25, 25);
+    width: 10rem;
+    margin: 1rem auto;
+    padding: 1rem;
+    border: solid white;
+    border-radius: 0.5rem;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+}

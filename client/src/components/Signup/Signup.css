@@ -1,0 +1,54 @@
+.signup {
+    margin-bottom: 100rem;
+    padding: 3rem;
+    max-width: 400px;
+    margin: 1.5rem auto;
+    text-align: center;
+    border: solid grey;
+    border-radius: 1rem;
+}
+
+.signup label {
+    font-weight: bold;
+    color: rgb(206, 206, 206);
+    text-align: left;
+    display: block;
+}
+
+.signup h2 {
+    font-size: 20px;
+    color: #f1356d;
+    margin-bottom: 30px;
+}
+
+.signup input {
+    width: 95%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid rgb(7, 7, 7);
+    box-sizing: border-box;
+    display: block;
+    border-radius: 0.3rem;
+    background: transparent;
+    color: rgb(236, 236, 236);
+}
+
+.signup button {
+    background: #f1356d;
+    color: #fff;
+    border: 0;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.signup input:focus {
+    color: black;
+    width: 100%;
+    background-color: lightgrey;
+    transition: ease-in-out, width .35s ease-in-out;
+}
+
+.signup ::placeholder {
+    color: #946a76;
+}

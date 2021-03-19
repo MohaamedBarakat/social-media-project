@@ -1,0 +1,31 @@
+.profile img {
+    width: 100%;
+    height: auto;
+}
+
+.profile p {
+    text-align: center;
+}
+
+.profile .edit-profile-image-btn {
+    background-color: rgb(25, 25, 29);
+    width: 10rem;
+    height: 3rem;
+    text-align: center;
+    color: white;
+    border: solid rgb(216, 216, 216);
+    border-radius: 0.5rem;
+    margin: 0 auto;
+    cursor: pointer;
+    font-weight: bold;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+}
+
+.profile-username {
+    font-weight: bold;
+    color: white;
+    margin: 1rem;
+}

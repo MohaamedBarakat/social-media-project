@@ -1,0 +1,14 @@
+.profile-image,
+.profile-image-sourceImage {
+    margin: 1rem auto;
+    width: 200px;
+    height: 200px;
+    border: 0.5rem solid rgb(216, 216, 216);
+    background-size: cover;
+    border-radius: 100%;
+    overflow: hidden;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+}

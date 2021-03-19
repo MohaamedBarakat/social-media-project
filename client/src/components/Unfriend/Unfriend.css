@@ -1,0 +1,15 @@
+.unfriend-btn {
+    width: 10rem;
+    padding: 1rem;
+    background-color: rgb(25, 25, 25);
+    color: white;
+    font-weight: bold;
+    margin: 1rem auto;
+    cursor: pointer;
+    border: solid rgb(216, 216, 216);
+    border-radius: 0.5rem;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+}

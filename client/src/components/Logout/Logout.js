@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-
+import './Logout.css';
 const Logout = (props) => {
     const history = useHistory();
     const handleLogout = (e) =>{
@@ -7,7 +7,7 @@ const Logout = (props) => {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         props.setIsAuth(false);
-        history.push('/');
+        history.push('/login');
 
     }
     return ( 
