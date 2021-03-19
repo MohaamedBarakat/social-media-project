@@ -1,0 +1,27 @@
+.then(user => {
+            if (!user) {
+                errorGenerator.userNotFound();
+            }
+            if (!user.requests.includes(userRquestId.toString()) || !userRquestId) {
+                errorGenerator.badRequest();
+            }
+            user.requests.pull(userRquestId);
+            user.friends.push(userRquestId);
+            return user.save();
+        })
+        .then(user => {
+            return user
+                .populate({ path: 'requests', select: '_id image username' })
+                .execPopulate()
+        })
+        .then(user => {
+            res.status(200).json({
+                requests: user.requests
+            })
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        })

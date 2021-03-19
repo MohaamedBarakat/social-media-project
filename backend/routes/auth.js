@@ -62,5 +62,30 @@ router.post('/login', [
 
 ], authController.login);
 
-router.get('/user/:userId', isAuth, authController.user);
+router.get('/profile/:userId', isAuth, authController.user);
+
+router.post('/users/search', [
+    body('users', 'invalid search')
+    .trim()
+    .isLength({ min: 1 })
+], isAuth, authController.searchUsers);
+
+router.get('/data/user/:userId', isAuth, authController.userData);
+
+router.patch('/user/update-profile-image', isAuth, authController.updateImage);
+
+router.get('/user/:userId', isAuth, authController.userFriends);
+
+router.put('/add-friend/user/:userId', isAuth, authController.addFriend);
+
+router.patch('/cancel-request/user/:userId', isAuth, authController.cancelRequest);
+
+router.get('/requests', isAuth, authController.requests);
+
+router.patch('/request/confirm/:userId', isAuth, authController.confirmRequest);
+
+router.patch('/request/ignore/:userId', isAuth, authController.ignoreRequest);
+
+router.patch('/unfriend/:userId', isAuth, authController.unfriend);
+
 module.exports = router;
