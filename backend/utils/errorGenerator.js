@@ -19,11 +19,11 @@ exports.notAuth = () => {
 }
 exports.forbidden = () => {
     const error = new Error('This user forbidden from this action');
-    error.status = 401;
+    error.statusCode = 401;
     throw error;
 }
 exports.badRequest = () => {
     const error = new Error('We can not perform this operation');
-    error.status = 400;
+    error.statusCode = 400;
     throw error;
 }
