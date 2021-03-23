@@ -44,4 +44,6 @@ router.patch('/edit-comment/post/:postId/comment/:commentId', isAuth, [
     .isLength({ min: 1 })
 ], postController.editComment);
 
+router.get('/users-likes/post/:postId', isAuth, postController.usersLikes);
+
 module.exports = router;
