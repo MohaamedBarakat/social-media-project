@@ -1,7 +1,8 @@
 import { useState } from "react";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import './Login.css';
+import image from '../../images/pexels-photo-1122410.jpeg';
 const Login = (props) => {
     const history = useHistory();
     const [email,setEmail] = useState('');
@@ -46,8 +47,10 @@ const Login = (props) => {
     return ( 
         <div className="login-page">
             <div className="login">
-            {error && <ErrorMessage error={error}/>}       
-            <h2> Login </h2>
+            {error && <ErrorMessage error={error}/>} 
+            <img src={image} className='login-image'/>      
+            <h2> Welcome </h2>
+            <p>Login by entering the information below </p>
             <form onSubmit={handleSubmit}>
             <label> Email : </label>
                 <input
@@ -57,6 +60,7 @@ const Login = (props) => {
                     required
                     onChange = {(e) => setEmail(e.target.value)}
                 />
+                <hr className='login-hr'/>
                 <label> Password : </label>
                 <input
                     type = "password"
@@ -65,7 +69,11 @@ const Login = (props) => {
                     required
                     onChange = {(e) => setPassword(e.target.value)}
                 />
+                <hr className='login-hr'/>
+                <Link className='login-forget-password' to={'/forget'}>Forget password</Link>
                 <button>Login</button>
+                <p style={{margin:'1rem 0 0 0'}}>Don't have an account? </p>
+                <Link to='/register'>SIGN UP</Link>
             </form>
         </div>
         </div>

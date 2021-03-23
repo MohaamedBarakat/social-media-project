@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Requests.css'; 
 const Requests = ({setIsFriend}) => {
-    const [usersRequsets,setUsersRequests] = useState({requests:[{username:'',image:''}]});
+    const [usersRequsets,setUsersRequests] = useState({requests:[{firstname:'',image:''}]});
     useEffect(() => {
         fetch('http://localhost:4000/requests',{
             method:'GET',
@@ -17,8 +17,9 @@ const Requests = ({setIsFriend}) => {
             return res.json();
         })
         .then(data => {
+            console.log(data);
             if(data.requests.length > 0 ){
-                console.log(data.requests);
+                //console.log(data.requests);
                 setUsersRequests({ requests :data.requests.reverse() });
             }else {
                 setUsersRequests({requests:[{username:'',image:''}]})
@@ -27,7 +28,7 @@ const Requests = ({setIsFriend}) => {
         .catch(err => {
             console.log(err);
         })
-    },[])
+    },[usersRequsets])
     const handleConfirm = (id) => {
         fetch(`http://localhost:4000/request/confirm/${id}`,{
             method:'PATCH',
@@ -65,16 +66,16 @@ const Requests = ({setIsFriend}) => {
     }
     return ( 
         <div className="requests">
-            {!usersRequsets.requests[0].username && <div className='requests-no'>No Friend Request</div>}
-            {usersRequsets.requests[0].username && usersRequsets.requests.map(user =>
+            {!usersRequsets.requests[0].firstname && <div className='requests-no'>No Friend Request</div>}
+            {usersRequsets.requests[0].firstname && usersRequsets.requests.map(user =>
             <div className="request-body" key={user._id}>
                 <div className="request-body-header">
                     <img src={`http://localhost:4000/${user.image}`} className='request-body-image' alt={user.username} />
-                    <Link className="request-body-link" to={`/profile/${user._id}`}>{user.username}</Link>
+                    <Link className="request-body-link" to={`/profile/${user._id}`}>{`${user.firstname} ${user.lastname}`}</Link>
                 </div>
                 
-                <button className="request-body-confirm" onClick={() => handleConfirm(user._id)}>Confirm</button>
-                <button className="request-body-ignore" onClick={() => handleIgnore(user._id)}>Ignore</button>
+                <button className="request-body-confirm" id='confirm' onClick={() => handleConfirm(user._id)}>Confirm</button>
+                <button className="request-body-ignore" id='ignore' onClick={() => handleIgnore(user._id)}>Ignore</button>
             </div>
             )}
         </div>

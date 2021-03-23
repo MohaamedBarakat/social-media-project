@@ -7,16 +7,24 @@
     margin: 1rem auto;
 }
 
+.single-post-loading {
+    font-weight: bold;
+    font-size: 3rem;
+    color: white;
+    background-color: transparent;
+    text-align: center;
+}
+
 .single-post a {
     color: white;
 }
 
-.single-post .content {
+content {
     color: white;
     padding: 0.5rem;
 }
 
-.single-post .header .creator-image {
+.creator-image {
     margin: 0.2rem;
     position: relative;
     width: 40px;
@@ -26,14 +34,14 @@
     float: left;
 }
 
-.single-post .header .btn-delete-post,
+.btn-delete-post,
 .btn-edit-post {
     float: right;
     color: black;
     font-weight: bold;
 }
 
-.single-post .header .btn-delete-post,
+.btn-delete-post,
 .btn-edit-post {
     background-color: rgb(216, 216, 216);
     border: solid rgb(216, 216, 216);
@@ -42,7 +50,7 @@
     cursor: pointer;
 }
 
-.single-post .post-image {
+.post-image {
     position: relative;
     width: 38rem;
     height: 38rem;
@@ -50,10 +58,9 @@
     border-radius: 0.5rem;
 }
 
-.single-post .single-post-like,
-.single-post-unlike {
+.comment-post-like,
+.comment-post-unlike {
     border-radius: 0.5rem;
-    margin-left: 1.5rem;
     border: solid rgb(216, 216, 216);
     color: black;
     font-weight: bold;
@@ -62,18 +69,33 @@
     height: 2rem;
 }
 
-.single-post .content {
+.comment-post-btn {
+    background-color: transparent;
+    color: white;
     font-weight: bold;
-    margin: 0 0 2rem 2rem;
+    border: solid rgb(216, 216, 216);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    outline: none;
+    width: 7rem;
+    height: 2rem;
 }
 
-.single-post textarea,
-.single-post-comment {
+.comment-post-like,
+.comment-post-unlike,
+.comment-post-btn,
+.comment-post-text {
     display: inline-block;
 }
 
+.content {
+    font-weight: bold;
+    margin: 0 0 2rem 2rem;
+    color: white;
+}
+
 .comment-post-text {
-    width: 25rem;
+    width: 50%;
     height: 5rem;
     border: solid rgb(216, 216, 216);
     border-radius: 0.5rem;
@@ -85,20 +107,12 @@
     color: rgb(216, 216, 216);
 }
 
-.single-post textarea::placeholder {
+.comment-post-text::placeholder {
     padding: 0.5rem;
     color: rgb(216, 216, 216);
 }
 
-.single-post .single-post-comment {
-    background-color: transparent;
-    color: white;
-    font-weight: bold;
-    position: absolute;
-    top: 101.5%;
-    border: solid rgb(216, 216, 216);
-    border-radius: 0.5rem;
-    cursor: pointer;
-    width: 7rem;
-    height: 2rem;
+.comment-post-like,
+.comment-post-unlike {
+    position: relative;
 }

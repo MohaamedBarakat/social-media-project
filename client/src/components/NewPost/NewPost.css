@@ -1,14 +1,12 @@
 .new-post {
     border: solid rgb(216, 216, 216);
-    background-color: rgb(25, 25, 29);
-    max-width: 40rem;
+    background-color: rgb(25, 25, 29, 0.7);
+    width: 40rem;
     height: auto;
     border-radius: 1rem;
     margin: 1rem auto;
     padding: 0.3rem;
-    z-index: -1;
-    position: relative;
-    right: 1%;
+    z-index: 1;
 }
 
 .new-post .new-post-textarea,
@@ -18,7 +16,7 @@
     padding: 0.3rem;
 }
 
-.new-post .new-post-textarea {
+.new-post-textarea {
     width: 30rem;
     height: 6rem;
     background-color: transparent;

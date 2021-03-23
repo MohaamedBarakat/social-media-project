@@ -6,7 +6,7 @@
 }
 
 body {
-    background-image: url('./images/pexels-philippe-donn-1114690.jpg');
+    background-image: url('./images/pexels-photo-207130.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -46,7 +46,8 @@ button:hover {
 .right {
     right: 0;
     background-color: rgb(216, 207, 190);
-    background-image: url('./images/pexels-photo-2072060.jpeg');
+    background-image: url('./images/pexels-adrien-olichon-2387793.jpg');
+    background-size: cover;
 }
 
 

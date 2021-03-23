@@ -10,6 +10,8 @@ const SinglePost = (props) => {
     const [postComment,setPostComment] = useState('');
     const [commentList,setCommentList] = useState([{creator:{image:''}}]);
     const [like,setLike] = useState(false);
+    const [isPending,setIsPending] = useState(true);
+    const [numLikes ,setNumLikes] = useState('');
     useEffect(() => {
         fetch('http://localhost:4000/post/' + postId , {
             method:'GET',
@@ -24,11 +26,15 @@ const SinglePost = (props) => {
             return res.json();
         })
         .then(data =>{
+            console.log('is he like');
             //console.log(data.post.creator._id);
             setPost(data.post);
             const isLike = post.likes.includes(localStorage.getItem('userId'));
+            console.log(isLike);
             //console.log(isLike);
             setLike(isLike);
+            setNumLikes(post.likes.length >0 ? post.likes.length + ',  likes your post':'')
+            setIsPending(false);
 
             //console.log(post.creator._id)
         }).catch(err =>{
@@ -51,12 +57,9 @@ const SinglePost = (props) => {
                 //const newCommentList = [...commentList ,postComment];
                 setCommentList(data.comments);
                 setPostComment('');
-            })
-        
-        
-            
+            })        
     }
-    ,[])
+    ,[isPending])
     const handleCommentPost = (e) => {
         e.preventDefault();
         fetch(`http://localhost:4000/post/${postId}/comment`,{
@@ -83,13 +86,11 @@ const SinglePost = (props) => {
             })
             .catch(err =>{
                 console.log(err);
-            })
-
-        
+            })   
     }
     const handleLike = (id) => {
         console.log(id);
-        fetch('http://localhost:4000/post/' + id + '/like', {
+        fetch(`http://localhost:4000/post/${id}/like`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -101,14 +102,18 @@ const SinglePost = (props) => {
             .then((data) => {
                 const isLike = data.post.likes.includes(localStorage.getItem('userId'));
                 setLike(isLike);
+                //console.log(data.post.likes.length > 0 ? data.post.likes.length + ',  likes your post':'');
+                setNumLikes(data.post.likes.length > 0 ? data.post.likes.length + ',  likes your post':'')
             })
     }
   
     return ( 
         <div className="single-post">
+            {isPending && <p className='single-post-loading'>Loading...</p>}
+           {!isPending &&<div className='single-post-details'>
             <div className="header">
                 <img className='creator-image' src={`http://localhost:4000/${post.creator.image}`}/>
-                <Link to={`/profile/${post.creator._id}`}>{post.creator.username}</Link><p> created At {new Date(post.createdAt).toLocaleDateString('en-US')}</p>
+                <Link to={`/profile/${post.creator._id}`}>{post.creator.firstname+' '+post.creator.lastname}</Link><p> created At {new Date(post.createdAt).toLocaleDateString('en-US')}</p>
                 {localStorage.getItem('userId') === post.creator._id &&<button className="btn-delete-post" onClick={()=>{helper.handleDeletePost(post._id)}}>X</button>}
                 {localStorage.getItem('userId') === post.creator._id && <button className="btn-edit-post" onClick={()=>helper.handleEditPost(post._id)}>...</button>}
 
@@ -120,22 +125,23 @@ const SinglePost = (props) => {
                 <img className='post-image' src={`http://localhost:4000/${post.image}`}/>
             </div>
             }
-            <div className="action-on-post">
-                {/*post.likes && <p> {post.likes.includes(localStorage.getItem('userId'))?'you, and' + (post.likes.length-1):post.likes.length} </p>*/}
-                {!like && <button className='single-post-like' style={{backgroundColor:'white'}}onClick={() => handleLike(post._id)}>Like</button>}
-                { like && <button className='single-post-unlike' style={{backgroundColor:'lightblue'}}onClick={() => handleLike(post._id)}>Unlike</button>}
+            <div className="single-post-likes" style={{color:'white',fontWeight:'bold',margin:'1rem'}}>
+                {numLikes}
+                
             </div>
-                <div className="comment-post">
-                    <form onSubmit={handleCommentPost}>
+            <div className="comment-post">
+                    {!like && <button className='comment-post-like' style={{backgroundColor:'white'}}onClick={() => handleLike(post._id)}>Like</button>}
+                    { like && <button className='comment-post-unlike' style={{backgroundColor:'lightblue'}}onClick={() => handleLike(post._id)}>Unlike</button>}
+                <form onSubmit={handleCommentPost}>
                     <textarea   value={postComment} 
                                 onChange={(e)=>setPostComment(e.target.value)}
                                 placeholder=' Write your comment here !!'
                                 className='comment-post-text' />
-                    <button className='single-post-comment'>Comment !</button>
-                    </form>
-                </div>
+                    <button className='comment-post-btn'>Comment !</button>
+                </form>
+            </div>
                 <CommentList commentList={commentList} post={post} setCommentList={setCommentList}/>
-
+                </div>}
         </div>
      );
 }

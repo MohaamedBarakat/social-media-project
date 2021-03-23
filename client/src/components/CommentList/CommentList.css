@@ -17,7 +17,7 @@
     font-weight: bold;
     position: relative;
     bottom: 8%;
-    left: 4%;
+    left: -1%;
     outline: none;
 }
 
@@ -68,9 +68,8 @@
     color: white;
     font-size: 1rem;
     font-weight: bold;
-    position: relative;
-    left: 8%;
-    bottom: 5%;
+    margin-left: 2rem;
+    margin-top: 0.8rem;
 }
 
 .comment-list-details-btn-edit,
@@ -92,7 +91,7 @@
     -ms-border-radius: 0.5rem;
     -o-border-radius: 0.5rem;
     position: relative;
-    left: 75%;
+    left: 70%;
     bottom: 52%;
     cursor: pointer;
 }

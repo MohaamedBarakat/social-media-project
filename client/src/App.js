@@ -9,6 +9,7 @@ import { useState,useEffect } from "react";
 import Profile from "./components/Profile/Profile";
 import PageNotFound from "./components/PageNotFound";
 import Requests from "./components/Requests/Requests";
+import Chat from "./components/Chat/Chat";
 
 function App() {
   const [isFriend,setIsFriend] = useState(false);
@@ -17,7 +18,6 @@ function App() {
   const [postImage , setPostImage] = useState('');
   const [posts , setPosts] = useState([{}]);
   const [searchInput,setSearchInput] =useState('');
-  const history = useHistory();
   useEffect(() => {
     if(localStorage.getItem('userId') !== null){
       setIsAuth(true);
@@ -31,17 +31,11 @@ function App() {
               <Navbar isAuth={isAuth} setIsAuth={setIsAuth}  />
           <div className="content" >
             <Switch>
-
-              <Route exact path = "/">
-                <StartPage />
+            <Route exact path = "/">
+                <Login setIsAuth={setIsAuth}/>
               </Route>
-
               <Route exact path = "/register" >
                 <Signup />
-              </Route>
-
-              <Route exact path = "/login">
-                <Login setIsAuth={setIsAuth}/>
               </Route>
 
               <Route exact path = "/home">
@@ -60,6 +54,12 @@ function App() {
                 <Requests setIsFriend={setIsFriend}/>
               </Route>
 
+              <Route  exact path = "/chat">
+                  <Chat />
+              </Route>
+              <Route  exact path = "/chat/:chatIdParam">
+                  <Chat />
+              </Route>
 
               <Route path="*">
                 <PageNotFound />

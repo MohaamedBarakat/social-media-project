@@ -13,15 +13,12 @@ const MyProfile = ({isFriend,setIsFriend}) => {
     const [isEdit,setIsEdit] =useState(false);
     const [isEditProfile,setIsEditProfile] =useState(false);
     const [name,setName] = useState('');
-    const [oldPassword,setOldPassword] = useState('');
-    const [password,setPassword] = useState('');
     const [newPost,setNewPost] = useState('');
     const [postImage , setPostImage] = useState('');
-    const [posts,setPosts] = useState([{likes:[]}]);
     const [userImage,setUserImage] = useState('');
-    const {postsData,isPending,error} = useFetchPost(`http://localhost:4000/posts/${userId}`);
+    const {posts,setPosts,isPending,error} = useFetchPost(`http://localhost:4000/posts/${userId}`);
     useEffect(()=>{
-        console.log(userId);
+        //console.log(userId);
         fetch(`http://localhost:4000/data/user/${userId}`,{
             method:'GET',
             headers:{
@@ -38,10 +35,10 @@ const MyProfile = ({isFriend,setIsFriend}) => {
 
             //console.log(data)
             if(!isPending){
-                setPosts(postsData);
+                console.log(posts);
             }
             setUserImage(data.user.image);
-            setName(data.user.username);
+            setName(`${data.user.firstname} ${data.user.lastname}`);
             //console.log(posts);
         }).catch(err => {
            console.log(err);
@@ -57,8 +54,6 @@ const MyProfile = ({isFriend,setIsFriend}) => {
     const handleEditProfile = () => {
         setIsEditProfile(true);
     }
-   
-   
     
     return ( 
         <div className="profile" >
@@ -74,8 +69,8 @@ const MyProfile = ({isFriend,setIsFriend}) => {
             </div>
             {localStorage.getItem('userId') === userId && <button onClick={handleEditProfile} className='edit-profile-image-btn'>Edit profile Image</button>}
             {isEditProfile && <UpdateProfile setIsEditProfile={setIsEditProfile} userImage={userImage} setUserImage={setUserImage}/>}
-            <NewPost setPosts={setPosts} newPost={newPost} setNewPost={setNewPost} setPostImage={setPostImage}/>
-            <Posts posts={postsData} isPending={isPending} setPosts={setPosts} />
+            <NewPost posts={posts} setPosts={setPosts} newPost={newPost} setNewPost={setNewPost} setPostImage={setPostImage}/>
+            {<Posts posts={posts} isPending={isPending} setPosts={setPosts} />}
 
         </div>  
      );

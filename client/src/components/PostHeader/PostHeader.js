@@ -2,6 +2,16 @@ import './PostHeader.css';
 import {Link, useParams} from 'react-router-dom';
 const PostHeader = ({post,user,setPostId,setPosts,setIsEditPost,setEditPost}) => {
     const {userId} = useParams();
+    const styles = {
+buttonHeader:{  display:'inline-block',
+                backgroundColor:'gray',
+                color:'black',
+                float:'',
+                borderRadius:'0.5rem',
+                border:'none',
+                cursor:'pointer',
+                fontWeight:'bold',
+                                   }}
     const handleDeletePost = (postId) => {
         console.log(userId);
         fetch(`http://localhost:4000/post/${postId}/user/${userId}`,{
@@ -48,17 +58,37 @@ const PostHeader = ({post,user,setPostId,setPosts,setIsEditPost,setEditPost}) =>
         })
         
     }
+    const handleStar = (postId) => {
+        fetch(`http://localhost:4000/start/post/${postId}`,{
+            method:'PUT',
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then(res => {
+            if(!res.ok){
+                throw new Error('colud not star this post now please try agai later');
+            }
+            return res.json();
+        })
+        .then(data => {
+            document.getElementById('star').display='none';
+            document.getElementById('unstar').display='block';
+        })
+    }
     return ( 
             <div className="header">
                 <img className='creator-image' src={`http://localhost:4000/${user.image}`}/>
-                <Link to={`/profile/${post.creator._id}`}> {user.username} </Link><p> created At {new Date(post.updatedAt).toLocaleDateString('en-US')}</p>
-                
-                {localStorage.getItem('userId') === post.creator._id  && <button className="btn-delete-post" onClick={()=>{handleDeletePost(post._id)}}>X</button>}
-                {localStorage.getItem('userId') === post.creator._id && <button className="btn-edit-post" 
+                <Link to={`/profile/${post.creator._id}`}> {`${user.firstname} ${user.lastname}`} </Link><p> created At {new Date(post.updatedAt).toLocaleDateString('en-US')}</p>
+                {/*!post.creator.stars.includes(post._id) &&  <button id='star' style={styles.buttonHeader} onClick={() => handleStar(post._id)}>Star</button>*/}
+                {/*post.creator.stars.includes(post._id) && <button id='unstar' style={styles.buttonHeader} onClick={() => handleStar(post._id)}>UnStar</button>*/}
+                {localStorage.getItem('userId') === post.creator._id  && <button  className="btn-delete-post" onClick={()=>{handleDeletePost(post._id)}}>X</button>}
+                {localStorage.getItem('userId') === post.creator._id && <button   className="btn-edit-post" 
                 onClick={()=>{
                     handleEditPost(post._id);
                     setPostId(post._id);
                 }}>...</button>}
+                
             </div>
      );
 }

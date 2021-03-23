@@ -1,14 +1,64 @@
 .signup {
-    margin-bottom: 100rem;
     padding: 3rem;
-    max-width: 400px;
-    margin: 1.5rem auto;
+    width: 35rem;
+    margin: 0rem 0 0 6rem;
     text-align: center;
     border: solid grey;
     border-radius: 1rem;
+    position: fixed;
 }
 
-.signup label {
+.firstname-label,
+.lastname-label {
+    font-weight: bold;
+    color: white;
+}
+
+.firstname-label {
+    position: relative;
+    margin: 0 0 0rem 0rem;
+}
+
+.lastname-label {
+    position: relative;
+    margin: -1.3rem 0 1rem 17rem;
+}
+
+.firstname,
+.lastname {
+    outline: none;
+    width: 40%;
+    padding: 6px 10px;
+    border: 1px solid rgb(7, 7, 7);
+    box-sizing: border-box;
+    display: inline-block;
+    border-radius: 0.3rem;
+    background: transparent;
+    color: rgb(236, 236, 236);
+}
+
+.firstname {
+    margin: 0 0 0 -4rem;
+}
+
+.lastname {
+    margin: 0 0 0 3rem;
+}
+
+.firstname:focus,
+.lastname:focus {
+    color: black;
+    width: 45%;
+    background-color: lightgrey;
+    transition: ease-in-out, width .35s ease-in-out;
+    -webkit-transition: ease-in-out, width .35s ease-in-out;
+    -moz-transition: ease-in-out, width .35s ease-in-out;
+    -ms-transition: ease-in-out, width .35s ease-in-out;
+    -o-transition: ease-in-out, width .35s ease-in-out;
+}
+
+label {
+    margin: 0.5rem;
     font-weight: bold;
     color: rgb(206, 206, 206);
     text-align: left;
@@ -16,12 +66,13 @@
 }
 
 .signup h2 {
-    font-size: 20px;
+    margin: 0;
+    font-size: 1.5rem;
     color: #f1356d;
     margin-bottom: 30px;
 }
 
-.signup input {
+.signup-input {
     width: 95%;
     padding: 6px 10px;
     margin: 10px 0;
@@ -31,22 +82,30 @@
     border-radius: 0.3rem;
     background: transparent;
     color: rgb(236, 236, 236);
+    outline: none;
 }
 
 .signup button {
+    margin: 1rem 0 0 0;
     background: #f1356d;
+    font-weight: bold;
     color: #fff;
     border: 0;
+    width: 100%;
     padding: 8px;
     border-radius: 8px;
     cursor: pointer;
 }
 
-.signup input:focus {
+.signup-input:focus {
     color: black;
     width: 100%;
     background-color: lightgrey;
     transition: ease-in-out, width .35s ease-in-out;
+    -webkit-transition: ease-in-out, width .35s ease-in-out;
+    -moz-transition: ease-in-out, width .35s ease-in-out;
+    -ms-transition: ease-in-out, width .35s ease-in-out;
+    -o-transition: ease-in-out, width .35s ease-in-out;
 }
 
 .signup ::placeholder {

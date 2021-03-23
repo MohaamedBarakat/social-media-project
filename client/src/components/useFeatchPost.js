@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const useFetchPost = (url) => {
-  const [postsData, setPostsData] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
 
@@ -22,7 +22,7 @@ const useFetchPost = (url) => {
       })
       .then(data => {
         setIsPending(false);
-        setPostsData(data.posts);
+        setPosts(data.posts);
         setError(null);
         //console.log('likes',likes);
       })
@@ -40,7 +40,7 @@ const useFetchPost = (url) => {
     return () => abortCont.abort();
   }, [url])
 
-  return { postsData, isPending, error };
+  return { posts,setPosts, isPending, error };
 }
  
 export default useFetchPost;

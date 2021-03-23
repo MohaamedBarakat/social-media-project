@@ -7,7 +7,7 @@
     text-align: center;
 }
 
-.profile .edit-profile-image-btn {
+.edit-profile-image-btn {
     background-color: rgb(25, 25, 29);
     width: 10rem;
     height: 3rem;
@@ -27,5 +27,5 @@
 .profile-username {
     font-weight: bold;
     color: white;
-    margin: 1rem;
+    margin: 1rem auto;
 }

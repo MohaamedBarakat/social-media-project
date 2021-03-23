@@ -64,7 +64,7 @@ const CommentList = ({commentList,post,setCommentList}) => {
              {commentList && commentList.map(comment =>
                  <div className="comment-list-details"  key={comment._id}>
                      <img className='comment-list-details-image' src={`http://localhost:4000/${comment.creator.image}`}/>
-                    <Link className='comment-list-details-link' to={`/profile/${comment.creator._id}`}>{comment.creator.username}</Link>
+                    <Link className='comment-list-details-link' to={`/profile/${comment.creator._id}`}>{`${comment.creator.firstname} ${comment.creator.lastname}`}</Link>
                     {localStorage.getItem('userId') === comment.creator._id && <button className="comment-list-details-edit-btn" onClick={()=>handleEditComment(comment.message)}>...</button>}
                     {(localStorage.getItem('userId') === comment.creator._id || localStorage.getItem('userId') === post.creator._id)  && <button className="comment-list-details-delete-btn" onClick={()=>{handleDeleteComment(post._id,comment._id)}}>X</button>}
                     <p className='comment-list-details-message' id='comment-list-details-message'>{comment.message}</p>
