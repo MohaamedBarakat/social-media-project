@@ -25,21 +25,25 @@ exports.newPost = async(req, res, next) => {
             creator: req.userId,
             image: image,
             like: []
-        }).populate('creator');
+        });
         post = await post.save();
-        console.log(post);
+        //console.log(post);
         let user = await User.findById(userId);
         user.posts = [...user.posts, post._id];
+        console.log(user.posts);
         user = await user.save();
-        let posts = await Post
-            .find({ creator: userId })
-            .sort({ createdAt: -1 })
-            .populate('creator');
-        //console.log(user);
-        //console.log(posts);
+        user = await user.populate({
+                path: 'posts',
+                options: { sort: { createdAt: -1 } },
+                populate: {
+                    path: 'creator',
+                    select: '_id firstname lastname image'
+                }
+            })
+            .execPopulate();
         res.json({
             message: 'Post created',
-            posts: posts,
+            posts: user.posts,
         });
     } catch (err) {
         if (!err.statusCode) {
@@ -55,7 +59,14 @@ exports.getUserPosts = async(req, res, next) => {
             errorsGenarator.badRequest();
         }
         const posts = await User.findById(userId, 'posts')
-            .populate({ path: 'posts', options: { sort: { createdAt: -1 } }, populate: { path: 'creator', select: '_id firstname lastname image' } });
+            .populate({
+                path: 'posts',
+                options: { sort: { createdAt: -1 } },
+                populate: {
+                    path: 'creator',
+                    select: '_id firstname lastname image'
+                }
+            });
         //console.log(posts);
         res.status(200).json({
                 posts: posts.posts
@@ -73,7 +84,14 @@ exports.deletePost = async(req, res, next) => {
         const postId = req.params.postId;
         const userId = req.params.userId;
         const post = await Post.findById(postId).populate('creator', '_id');
-        const user = await User.findById(userId).populate({ path: 'posts', options: { sort: { updatedAt: -1 } }, populate: { path: 'creator', select: '_id firstname lastname image' } });
+        const user = await User.findById(userId).populate({
+            path: 'posts',
+            options: { sort: { createdAt: -1 } },
+            populate: {
+                path: 'creator',
+                select: '_id firstname lastname image'
+            }
+        });
         if (post.creator._id.toString() !== req.userId.toString() && post.creator._id.toString() !== userId.toString()) {
             errorsGenarator.forbidden();
         }
@@ -103,7 +121,11 @@ exports.singlePost = (req, res, next) => {
                 errorsGenarator.badRequest();
             }
             //console.log(post);
-            res.json({ message: 'post fetched succsefully', post: post, user: { username: post.creator.username, } })
+            res.json({
+                message: 'post fetched succsefully',
+                post: post,
+                user: { username: post.creator.username, }
+            })
         })
         .catch(err => {
             if (!err.statusCode) {
@@ -172,11 +194,13 @@ exports.likePost = (req, res, next) => {
                 //console.log('unlike');
             }
             return post.save();
-
         })
         .then(post => {
             //console.log(post);
-            res.status(201).json({ message: 'post liked', post: post });
+            res.status(201).json({
+                message: 'post liked',
+                post: post
+            });
 
         })
 };
@@ -190,19 +214,28 @@ exports.putComment = (req, res, next) => {
             if (!post) {
                 errorsGenarator.badRequest();
             }
-            post.comments.push({ creator: req.userId, message: commentMessage })
+            post.comments.push({
+                creator: req.userId,
+                message: commentMessage
+            })
             return post.save();
         })
         .then(post => {
             return post.populate({
                 path: 'comments',
-                populate: { path: 'creator', select: '_id firstname lastname image' }
+                populate: {
+                    path: 'creator',
+                    select: '_id firstname lastname image'
+                }
             }).execPopulate()
 
         })
         .then(post => {
             //console.log(post.comments);
-            res.status(201).json({ message: 'Comment accepted', comments: post.comments });
+            res.status(201).json({
+                message: 'Comment accepted',
+                comments: post.comments
+            });
         })
         .catch(err => {
             if (!err.statusCode) {
@@ -210,7 +243,6 @@ exports.putComment = (req, res, next) => {
             }
             next(err);
         })
-
 };
 exports.getPostComments = (req, res, next) => {
     const postId = req.params.postId;
@@ -222,14 +254,20 @@ exports.getPostComments = (req, res, next) => {
             return post
                 .populate({
                     path: 'comments',
-                    populate: { path: 'creator', select: '_id firstname lastname image' }
+                    populate: {
+                        path: 'creator',
+                        select: '_id firstname lastname image'
+                    }
                 })
                 .execPopulate()
 
         })
         .then(post => {
             //console.log(post.comments);
-            res.status(201).json({ message: 'Comment accepted', comments: post.comments });
+            res.status(201).json({
+                message: 'Comment accepted',
+                comments: post.comments
+            });
         })
         .catch(err => {
             if (!err.statusCode) {
@@ -252,7 +290,10 @@ exports.deleteComment = (req, res, next) => {
         .then(post => {
             return post.populate({
                 path: 'comments',
-                populate: { path: 'creator', select: '_id firstname lastname image' }
+                populate: {
+                    path: 'creator',
+                    select: '_id firstname lastname image'
+                }
             }).execPopulate()
 
         })
@@ -279,7 +320,14 @@ exports.editComment = async(req, res, next) => {
         if (!postId || !commentId) {
             errorsGenarator.badRequest();
         }
-        let postComments = await Post.findById(postId, 'comments').populate({ path: 'comments', populate: { path: 'creator', select: '_id firstname lastname image' } });
+        let postComments = await Post.findById(postId, 'comments')
+            .populate({
+                path: 'comments',
+                populate: {
+                    path: 'creator',
+                    select: '_id firstname lastname image'
+                }
+            });
         postComments.comments.map(comment => {
             if (comment._id.toString() == commentId.toString()) {
                 comment.message = commentMessage;
@@ -300,7 +348,10 @@ exports.editComment = async(req, res, next) => {
 exports.usersLikes = (req, res, next) => {
     const postId = req.params.postId;
     Post.findById(postId, 'likes')
-        .populate('likes', '_id firstname lastname image')
+        .populate({
+            path: 'likes',
+            select: '_id firstname lastname image'
+        })
         .then(post => {
             if (!post) {
                 errorsGenarator.badRequest();
