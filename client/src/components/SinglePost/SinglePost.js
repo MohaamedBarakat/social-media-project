@@ -12,6 +12,8 @@ const SinglePost = (props) => {
     const [like,setLike] = useState(false);
     const [isPending,setIsPending] = useState(true);
     const [numLikes ,setNumLikes] = useState('');
+    const [usersLikes,setUserLikes] = useState([]);
+
     useEffect(() => {
         fetch('http://localhost:4000/post/' + postId , {
             method:'GET',
@@ -33,7 +35,7 @@ const SinglePost = (props) => {
             console.log(isLike);
             //console.log(isLike);
             setLike(isLike);
-            setNumLikes(post.likes.length >0 ? post.likes.length + ',  likes your post':'')
+            setNumLikes(post.likes.length > 0 ? post.likes.length : 0)
             setIsPending(false);
 
             //console.log(post.creator._id)
@@ -105,7 +107,29 @@ const SinglePost = (props) => {
                 //console.log(data.post.likes.length > 0 ? data.post.likes.length + ',  likes your post':'');
                 setNumLikes(data.post.likes.length > 0 ? data.post.likes.length + ',  likes your post':'')
             })
-    }
+    };
+    const handleUsersLikes = (postId) => {
+        document.getElementById("num-likes-users").style.display ='block';
+        fetch(`http://localhost:4000/users-likes/post/${postId}`,{
+            method:'GET',
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            },
+        })
+        .then(res => {
+            if(!res.ok){
+                throw new Error('We could not pick users likes now');
+            }
+            return res.json();
+        })
+        .then(data => {
+            setUserLikes(data.users);
+            console.log(usersLikes);
+        })
+    };
+    const handleClose = () => {
+        document.getElementById("num-likes-users").style.display ='none';
+    };
   
     return ( 
         <div className="single-post">
@@ -125,10 +149,19 @@ const SinglePost = (props) => {
                 <img className='post-image' src={`http://localhost:4000/${post.image}`}/>
             </div>
             }
-            <div className="single-post-likes" style={{color:'white',fontWeight:'bold',margin:'1rem'}}>
-                {numLikes}
-                
+            <div className='likes-users' className='overlay' id='num-likes-users' style={{display:'none'}}>
+                <button className='handle-close' onClick={handleClose}>X</button>
+                { usersLikes.length >0 && usersLikes.map(user =>
+                                <div className="like-users-content" key={user._id}>
+                                    <Link to={`/profile/${user._id}`}>
+                                        <img className='likes-users-links-image' src={`http://localhost:4000/${user.image}`}/>
+                                        <p className='likes-users-links-p'>{`${user.firstname} ${user.lastname}`}</p>
+                                    </Link>
+                                    <hr style={{color:'black'}}/>
+                                </div>
+                                )}
             </div>
+            <button className='post-number-likes' onClick={() => handleUsersLikes(post._id)}>{numLikes > 0 ?  `${numLikes},  likes on your post`:''}</button>
             <div className="comment-post">
                     {!like && <button className='comment-post-like' style={{backgroundColor:'white'}}onClick={() => handleLike(post._id)}>Like</button>}
                     { like && <button className='comment-post-unlike' style={{backgroundColor:'lightblue'}}onClick={() => handleLike(post._id)}>Unlike</button>}

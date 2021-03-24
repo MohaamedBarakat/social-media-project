@@ -1,5 +1,5 @@
 .single-post {
-    background-color: rgb(25, 25, 29);
+    background-color: rgb(25, 25, 29, 0.7);
     border: solid rgb(216, 216, 216);
     border-radius: 0.5rem;
     width: 40rem;
@@ -79,6 +79,8 @@ content {
     outline: none;
     width: 7rem;
     height: 2rem;
+    position: absolute;
+    margin: 5.2rem 0 0 0;
 }
 
 .comment-post-like,
@@ -105,6 +107,7 @@ content {
     padding: 0.5rem;
     outline: none;
     color: rgb(216, 216, 216);
+    position: relative;
 }
 
 .comment-post-text::placeholder {

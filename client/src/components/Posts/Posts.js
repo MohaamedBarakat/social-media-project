@@ -111,7 +111,7 @@ const Posts = ({posts,setPosts,isPending}) => {
                         {post.content}
                     </div>
                     {post.image && <div className="post-image-content">
-                       <Link to={'/'}><img className='post-image-image' src={`http://localhost:4000/${post.image}`}/></Link> 
+                       <Link to={`/home`}><img className='post-image-image' src={`http://localhost:4000/${post.image}`}/></Link> 
                     </div>}
                     <div className="numLikes">
                         <button className='post-number-likes' onClick={() => handleUsersLikes(post._id)}>{numOfLikes[index] > 0 ?  `${numOfLikes[index]},  likes on your post`:''}</button>
@@ -120,9 +120,10 @@ const Posts = ({posts,setPosts,isPending}) => {
                             { usersLikes.length >0 && usersLikes.map(user =>
                             <div className="like-users-content" key={user._id}>
                                 <Link to={`/profile/${user._id}`}>
-                                    <img className='likes-users-links-image' src={`http://localhost:4000/${user.image}`}/>
-                                    <p className='likes-users-links-p'>{user.username}</p>
+                                    <img className='likes-users-links-image' src={`http://localhost:4000/${user.image}`} style={{width:'30px',height:'30px'}}/>
+                                    <p className='likes-users-links-p'>{`${user.firstname} ${user.lastname}`}</p>
                                 </Link>
+                                <hr style={{color:'black'}}/>
                             </div>
                             )}
                         </div>

@@ -6,9 +6,11 @@
 }
 
 body {
-    background-image: url('./images/pexels-photo-207130.jpeg');
+    background: url('./images/pexels-photo-325185.jpeg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-size: cover;
-    background-repeat: no-repeat;
 }
 
 button:hover {

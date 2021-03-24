@@ -8,7 +8,7 @@
 
 .posts-loading {
     font-weight: bold;
-    color: white;
+    color: rgb(25, 25, 29);
     text-align: center;
     font-size: 4rem;
 }
@@ -82,23 +82,16 @@
 }
 
 .like-users-content {
-    width: 30px;
-    height: 30px;
-    border-radius: 100%;
-    margin-top: 2rem;
-    margin-left: 40rem;
-    background-color: transparent;
+    width: 30rem;
+    height: auto;
+    background-color: white;
+    margin: 2rem 0 0 40rem;
     display: block;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    -ms-border-radius: 100%;
-    -o-border-radius: 100%;
 }
 
 .likes-users-links-p,
 .likes-users-links-image {
     display: inline-block;
-    color: white;
 }
 
 .likes-users-links-image {
@@ -109,6 +102,12 @@
     -moz-border-radius: 100%;
     -ms-border-radius: 100%;
     -o-border-radius: 100%;
+}
+
+.likes-users-links-p {
+    color: black;
+    position: relative;
+    margin: -2rem 0 0 1rem;
 }
 
 .handle-close {

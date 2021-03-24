@@ -5,13 +5,13 @@
 }
 
 .search-input {
-    color: white;
+    color: gray;
     font-size: 20px;
     font-weight: bold;
     width: 20rem;
     height: 3rem;
     background-color: transparent;
-    border: solid rgb(216, 216, 216);
+    border: solid rgb(150, 150, 150);
     border-radius: 0.5rem;
     text-align: center;
     margin: 1rem auto;
@@ -19,7 +19,7 @@
 }
 
 .search-input::placeholder {
-    color: rgb(216, 216, 216);
+    color: rgb(150, 150, 150);
 }
 
 .search-result {

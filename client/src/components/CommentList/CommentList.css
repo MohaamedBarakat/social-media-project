@@ -52,15 +52,15 @@
 }
 
 .comment-list-details-edit-btn {
-    position: relative;
-    left: 25%;
-    bottom: 10%;
+    position: absolute;
+    margin: 0.8rem 0 0 7.5rem;
+    outline: none;
 }
 
 .comment-list-details-delete-btn {
-    position: relative;
-    left: 22%;
-    bottom: 10%;
+    position: absolute;
+    margin: 0.8rem 0 0 12rem;
+    outline: none;
 }
 
 .comment-list-details-message {
@@ -90,10 +90,10 @@
     -moz-border-radius: 0.5rem;
     -ms-border-radius: 0.5rem;
     -o-border-radius: 0.5rem;
-    position: relative;
-    left: 70%;
-    bottom: 52%;
+    position: absolute;
+    margin: 3.5rem 0 0 22.4rem;
     cursor: pointer;
+    outline: none;
 }
 
 .comment-list-details-btn-cancel-edit {
@@ -108,10 +108,10 @@
     -moz-border-radius: 0.5rem;
     -ms-border-radius: 0.5rem;
     -o-border-radius: 0.5rem;
-    position: relative;
-    left: 75%;
-    bottom: 110%;
+    position: absolute;
+    margin: 1rem 0 0 22.4rem;
     cursor: pointer;
+    outline: none;
 }
 
 .comment-list-details-text-edit {
@@ -127,7 +127,6 @@
     -moz-border-radius: 0.5rem;
     -ms-border-radius: 0.5rem;
     -o-border-radius: 0.5rem;
-    position: relative;
-    bottom: 15%;
-    left: 2%;
+    position: absolute;
+    outline: none;
 }
