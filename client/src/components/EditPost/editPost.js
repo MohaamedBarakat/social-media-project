@@ -1,16 +1,20 @@
-const EditPost = ({editPost,setEditPost,setIsEditPost,postId,posts,setPosts}) => {
+import { useState } from "react";
 
+const EditPost = ({editPost,setEditPost,setIsEditPost,postId,posts,setPosts}) => {
+    const [image , setImage] = useState();
+    const formData = new FormData();
     const handleClose = ()=>{
         setIsEditPost(false);
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
-        console.log(postId);
+        //console.log(postId);
+        formData.append('content',editPost);
+        formData.append('image',image);
         fetch('http://localhost:4000/post/' + postId , {
             method:'PATCH',
-            body : JSON.stringify({content : editPost}),
+            body : formData,
             headers :{
-                'Content-Type' :'application/json',
                 Authorization :`Bearer ${localStorage.getItem('token')}`
             }
         })
@@ -40,8 +44,11 @@ const EditPost = ({editPost,setEditPost,setIsEditPost,postId,posts,setPosts}) =>
                             value={editPost}
                             className='textarea-edit-post'
 
-                >
-                </textarea>
+                />
+                <input  type='file'
+                        className="new-post-input"
+                        onChange={(e)=> setImage(e.target.files[0])} />
+                
                 <button className='button-edit-post'>Update Post</button>
             </form>
         

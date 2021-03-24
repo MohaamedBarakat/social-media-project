@@ -7,7 +7,7 @@ const Logout = (props) => {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         props.setIsAuth(false);
-        history.push('/login');
+        history.push('/');
 
     }
     return ( 

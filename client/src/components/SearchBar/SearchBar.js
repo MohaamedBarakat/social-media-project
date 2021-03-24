@@ -60,7 +60,7 @@ const SearchBar = ({searchInput,setSearchInput}) => {
                 <div id='search-bar-link' style={{display:'none'}}> 
                     {users.map(user =>
 
-                        <li key={user._id}><Link style={{textDecoration:'none'}} to={`/profile/${user._id}`}><img className='search-bar-image' src={`http://localhost:4000/${user.image}`}/><p className='search-bar-p'>{user.username}</p></Link></li>
+                        <li key={user._id}><Link style={{textDecoration:'none'}} to={`/profile/${user._id}`}><img className='search-bar-image' src={`http://localhost:4000/${user.image}`}/><p className='search-bar-p'>{`${user.firstname} ${user.lastname}`}</p></Link></li>
                             )
                     }
                     

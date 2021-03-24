@@ -30,3 +30,22 @@
                         {(localStorage.getItem('userId') === comment.creator._id || localStorage.getItem('userId') === post.creator._id)  && <button className="comment-details-manipulation-edit-btn" onClick={()=>{handleDeleteComment(post._id,comment._id)}}>X</button>}
                     </div>
                     <p>{comment.message}</p>
+
+
+
+
+                    const like = data.post.likes.includes(localStorage.getItem('userId'));
+            const likesOnPosts = [...likes];
+            likesOnPosts[index] = like;
+            setLikes(likesOnPosts);
+            let numLikes = [...numOfLikes];
+            numLikes[index] = like ? numLikes[index]+1 : numLikes[index]-1;
+            console.log(index,numLikes); 
+<div className="chat-users" style={styles.chatUsers}>
+                <div className="chat-users-friends" style={styles.chatFriends}>
+                    <img src={`http://localhost:4000/${'images/2021-03-13T19:58:18.798Z-138675207_3988428944509572_4336521994899151105_o.jpg'}`} style={styles.userImage} />
+                    <p style={styles.userName}>Mohamed</p>
+                    <p style={styles.lastMessage}>hello</p>
+                </div>
+                <hr style={styles.hr} />
+            </div>

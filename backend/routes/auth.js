@@ -24,8 +24,14 @@ router.put('/signup', [
         }
         return true;
     }),
-    body('username', 'Inavlid Username')
+    body('firstname', 'Inavlid Firstname')
     .isLength({ min: 2 })
+    .trim(),
+    body('lastname', 'Inavlid Lastname')
+    .isLength({ min: 2 })
+    .trim(),
+    body('phonenumber', 'Inavlid phone number')
+    .isLength({ min: 11, max: 11 })
     .trim(),
     body('password', 'Invalid Password')
     .trim()

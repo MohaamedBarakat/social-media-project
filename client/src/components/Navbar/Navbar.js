@@ -11,8 +11,7 @@ const Navbar = (props) => {
                 <li>{ props.isAuth && <Link to="/requests">Requests</Link>}</li>
                 <li>{ props.isAuth && <Link to="/chat">Chat</Link>}</li>
                 <li>{ props.isAuth && <Logout setIsAuth={props.setIsAuth} />}</li>
-                <li>{ !props.isAuth && <Link to="/login"> Login</Link>}</li>
-                <li>{ !props.isAuth && <Link to="/register"> Register</Link>}</li>
+                
             </div>
         </nav>
      );

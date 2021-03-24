@@ -10,6 +10,8 @@ const postRouter = require('./routes/post');
 
 const feedsRouter = require('./routes/feeds');
 
+const chatRouter = require('./routes/chat');
+
 const multer = require('multer');
 
 const path = require('path');
@@ -51,6 +53,7 @@ app.use((req, res, next) => {
 app.use(authRouter);
 app.use(postRouter);
 app.use(feedsRouter);
+app.use(chatRouter);
 app.use((error, req, res, next) => {
     console.log(error);
     const status = error.statusCode || 500;
@@ -67,7 +70,15 @@ app.use((error, req, res, next) => {
 
 
 mongoose.connect(process.env.DB_URI, () => {
-    app.listen(process.env.PORT, () => {
-        console.log(`App is on fire from port ${process.env.PORT}`)
+    const server = app.listen(process.env.PORT, () => {
+        console.log(`App is on fire from port ${process.env.PORT}`);
     });
+    const io = require('./socket').init(server);
+    io.on('connection', socket => {
+        console.log('Client Connected');
+
+    });
+
+
+
 });

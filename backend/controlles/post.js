@@ -6,58 +6,47 @@ const { validationResult } = require('express-validator/check');
 
 const errorsGenarator = require('../utils/errorGenerator');
 
-const user = require('../models/user');
-
 const { clearImage } = require('../utils/main');
 
-exports.newPost = (req, res, next) => {
-    const errors = validationResult(req);
-    errorsGenarator.validationError(errors);
-    const userId = req.params.userId;
-    const content = req.body.content;
-    //console.log(userId);
-    let image;
-    if (req.file) {
-        image = req.file.path;
-    }
-    let posts;
-    //console.log(image);
-    const post = new Post({
-        content,
-        creator: req.userId,
-        image: image,
-        like: []
-    })
-    post.save()
-        .then(post => {
-            if (!post) {
-                errorsGenarator.badRequest();
-            }
-            return User.findById(userId)
-                //return post.populate('creator')
-        })
-        .then(user => {
-            //console.log(user);
-            if (!user) {
-                errorsGenarator.userNotFound();
-            }
-            posts = [...user.posts, post._id];
-            //console.log(posts);
-            user.posts = posts;
-            console.log(user.posts);
-            return user.save();
-        })
-        .then(user => {
-            //console.log(user);
-            //console.log(user.populate('posts'));
-            res.json({ message: 'post created', posts: posts, username: user.username });
-        })
-        .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
+exports.newPost = async(req, res, next) => {
+    try {
+        const errors = validationResult(req);
+        errorsGenarator.validationError(errors);
+        const userId = req.params.userId;
+        const content = req.body.content;
+        //console.log(userId);
+        let image;
+        if (req.file) {
+            image = req.file.path;
+        }
+        //console.log(image);
+        let post = new Post({
+            content,
+            creator: req.userId,
+            image: image,
+            like: []
+        }).populate('creator');
+        post = await post.save();
+        console.log(post);
+        let user = await User.findById(userId);
+        user.posts = [...user.posts, post._id];
+        user = await user.save();
+        let posts = await Post
+            .find({ creator: userId })
+            .sort({ createdAt: -1 })
+            .populate('creator');
+        //console.log(user);
+        //console.log(posts);
+        res.json({
+            message: 'Post created',
+            posts: posts,
         });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
 };
 exports.getUserPosts = async(req, res, next) => {
     try {
@@ -66,11 +55,12 @@ exports.getUserPosts = async(req, res, next) => {
             errorsGenarator.badRequest();
         }
         const posts = await User.findById(userId, 'posts')
-            .populate({ path: 'posts', options: { sort: { updatedAt: -1 } }, populate: { path: 'creator', select: '_id username image' } });
+            .populate({ path: 'posts', options: { sort: { createdAt: -1 } }, populate: { path: 'creator', select: '_id firstname lastname image' } });
         //console.log(posts);
         res.status(200).json({
-            posts: posts.posts
-        })
+                posts: posts.posts
+            })
+            //console.log(posts.posts);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -83,57 +73,27 @@ exports.deletePost = async(req, res, next) => {
         const postId = req.params.postId;
         const userId = req.params.userId;
         const post = await Post.findById(postId).populate('creator', '_id');
-        const user = await User.findById(userId).populate({ path: 'posts', options: { sort: { updatedAt: -1 } }, populate: { path: 'creator', select: '_id username image' } });
+        const user = await User.findById(userId).populate({ path: 'posts', options: { sort: { updatedAt: -1 } }, populate: { path: 'creator', select: '_id firstname lastname image' } });
         if (post.creator._id.toString() !== req.userId.toString() && post.creator._id.toString() !== userId.toString()) {
             errorsGenarator.forbidden();
         }
         await Post.deleteOne({ _id: postId });
         user.posts.pull(post._id);
+        if (user.posts.image) {
+            clearImage(user.posts.image);
+        }
         user.save();
         res.status(200).json({
             message: 'post deleted',
             posts: user.posts
         })
-
-
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
         next(err);
     }
-
-    //console.log(postId);
-    /*Post.findById(postId)
-        .then(post => {
-            if (!post) {
-                errorsGenarator.badRequest();
-            }
-            if (req.userId.toString() !== post.creator.toString()) {
-                errorsGenarator.forbidden();
-            }
-            if (post.image) {
-                clearImage(post.image);
-            }
-            return Post.deleteOne({ _id: postId });
-        }).then(result => {
-            return User.findById(req.userId)
-                .populate('posts')
-        })
-        .then(user => {
-            user.posts.pull(postId);
-            return user.save();
-        })
-        .then(user => {
-            res.json({ message: 'Post deleted', posts: user.posts, username: user.username });
-        })
-        .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
-        })*/
-}
+};
 exports.singlePost = (req, res, next) => {
     const postId = req.params.postId;
     Post.findById(postId)
@@ -151,23 +111,31 @@ exports.singlePost = (req, res, next) => {
             }
             next(err);
         })
-}
+};
 exports.patchEditPost = (req, res, next) => {
     const errors = validationResult(req);
     errorsGenarator.validationError(errors);
     const content = req.body.content;
     const postId = req.params.postId;
-
+    let image;
+    if (req.file) {
+        image = req.file.path;
+    }
+    console.log(content);
+    console.log(image);
     Post.findById(postId)
         .then(post => {
-            console.log(post);
-
+            //console.log(post);
             if (req.userId.toString() !== post.creator.toString()) {
                 errorsGenarator.forbidden();
             }
             if (!post) {
                 errorsGenarator.badRequest();
             }
+            if (image && post.image) {
+                clearImage(post.image);
+            }
+            post.image = image;
             post.content = content;
             return post.save();
         })
@@ -211,7 +179,7 @@ exports.likePost = (req, res, next) => {
             res.status(201).json({ message: 'post liked', post: post });
 
         })
-}
+};
 exports.putComment = (req, res, next) => {
     const errors = validationResult(req);
     errorsGenarator.validationError(errors);
@@ -228,7 +196,7 @@ exports.putComment = (req, res, next) => {
         .then(post => {
             return post.populate({
                 path: 'comments',
-                populate: { path: 'creator', select: 'username image' }
+                populate: { path: 'creator', select: '_id firstname lastname image' }
             }).execPopulate()
 
         })
@@ -243,7 +211,7 @@ exports.putComment = (req, res, next) => {
             next(err);
         })
 
-}
+};
 exports.getPostComments = (req, res, next) => {
     const postId = req.params.postId;
     Post.findById(postId)
@@ -251,10 +219,12 @@ exports.getPostComments = (req, res, next) => {
             if (!post) {
                 errorsGenarator.badRequest();
             }
-            return post.populate({
-                path: 'comments',
-                populate: { path: 'creator', select: 'username image' }
-            }).execPopulate()
+            return post
+                .populate({
+                    path: 'comments',
+                    populate: { path: 'creator', select: '_id firstname lastname image' }
+                })
+                .execPopulate()
 
         })
         .then(post => {
@@ -282,7 +252,7 @@ exports.deleteComment = (req, res, next) => {
         .then(post => {
             return post.populate({
                 path: 'comments',
-                populate: { path: 'creator', select: 'username image' }
+                populate: { path: 'creator', select: '_id firstname lastname image' }
             }).execPopulate()
 
         })
@@ -298,7 +268,7 @@ exports.deleteComment = (req, res, next) => {
             }
             next(err);
         })
-}
+};
 exports.editComment = async(req, res, next) => {
     try {
         const errors = validationResult(req);
@@ -309,25 +279,32 @@ exports.editComment = async(req, res, next) => {
         if (!postId || !commentId) {
             errorsGenarator.badRequest();
         }
-        let postComments = await Post.findById(postId, 'comments').populate({ path: 'comments', populate: { path: 'creator', select: '_id username image' } });
+        let postComments = await Post.findById(postId, 'comments').populate({ path: 'comments', populate: { path: 'creator', select: '_id firstname lastname image' } });
         postComments.comments.map(comment => {
             if (comment._id.toString() == commentId.toString()) {
                 comment.message = commentMessage;
             }
         })
         postComments = await postComments.save();
-        console.log(postComments.comments);
+        //console.log(postComments.comments);
         res.status(200).json({
             comments: postComments.comments
         })
-
-
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
         next(err);
     }
-
-
-}
+};
+exports.usersLikes = (req, res, next) => {
+    const postId = req.params.postId;
+    Post.findById(postId, 'likes')
+        .populate('likes', '_id firstname lastname image')
+        .then(post => {
+            if (!post) {
+                errorsGenarator.badRequest();
+            }
+            res.status(200).json({ users: post.likes });
+        })
+};

@@ -11,7 +11,8 @@ const sgMail = require('@sendgrid/mail');
 const { clearImage } = require('../utils/main');
 
 const jwt = require('jsonwebtoken');
-const { find } = require('../models/user');
+
+const Chat = require('../models/chat');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -19,10 +20,12 @@ exports.signup = (req, res, next) => {
     //console.log(req.body);
     const errors = validationResult(req);
     errorGenerator.validationError(errors);
-
     const email = req.body.email;
-    const username = req.body.username;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
+    const phonenumber = req.body.phonenumber;
     const password = req.body.password;
+    console.log(firstname, lastname, phonenumber);
 
     bcrypt.hash(password, 12)
         .then(hashedPassword => {
@@ -31,7 +34,9 @@ exports.signup = (req, res, next) => {
             }
             const user = new User({
                 email: email,
-                username: username,
+                firstname: firstname,
+                lastname: lastname,
+                phonenumber: phonenumber,
                 password: hashedPassword,
                 friends: [],
                 requests: []
@@ -129,7 +134,7 @@ exports.user = (req, res, next) => {
 }
 exports.searchUsers = (req, res, next) => {
     const users = req.body.users;
-    User.find({ username: { $regex: "^" + users, $options: 'i' } }, '_id username image')
+    User.find({ firstname: { $regex: "^" + users, $options: 'i' } }, '_id firstname lastname image')
         .then(users => {
             console.log(users);
             res.json({ users: users });
@@ -182,7 +187,7 @@ exports.userFriends = (req, res, next) => {
             if (!userId) {
                 errorGenerator.badRequest();
             }
-            res.status(200).json({ userFriends: user.friends, userRequests: user.requests })
+            res.status(200).json({ userFriends: user.friends.map(friend => friend.userId), userRequests: user.requests })
         })
         .catch(err => {
             if (!err.statusCode) {
@@ -248,12 +253,12 @@ exports.cancelRequest = (req, res, next) => {
 };
 exports.requests = (req, res, next) => {
     User.findById(req.userId)
-        .populate({ path: 'requests', select: '_id image username' })
+        .populate({ path: 'requests', select: '_id image firstname lastname' })
         .then(user => {
             if (!user) {
                 errorGenerator.userNotFound();
             }
-            console.log(user.requests);
+            //console.log(user.requests);
             res.status(200).json({ requests: user.requests })
         })
         .catch(err => {
@@ -266,6 +271,9 @@ exports.requests = (req, res, next) => {
 exports.confirmRequest = async(req, res, next) => {
     const userRquestId = req.params.userId;
     let ownerUser;
+    let chat = new Chat({ messages: [] });
+    chat = await chat.save();
+    //console.log('chat', chat);
     User.find({ _id: { $in: [req.userId, userRquestId] } })
         .then(users => {
             if (users.length < 2) {
@@ -281,16 +289,18 @@ exports.confirmRequest = async(req, res, next) => {
                         errorGenerator.badRequest();
                     }
                 } else {
-                    user.friends.push(req.userId);
+                    user.friends.push({ userId: req.userId, chatId: chat._id });
                     user.save();
+                    console.log(user);
                 }
             });
             ownerUser.requests.pull(userRquestId);
-            ownerUser.friends.push(userRquestId);
+            ownerUser.friends.push({ userId: userRquestId, chatId: chat._id });
             return ownerUser.save();
 
         })
         .then(user => {
+            console.log(user);
             return user
                 .populate({ path: 'requests', select: '_id image username' })
                 .execPopulate()
@@ -339,41 +349,36 @@ exports.ignoreRequest = (req, res, next) => {
             next(err);
         })
 };
-exports.unfriend = (req, res, next) => {
-    const unFrienduserId = req.params.userId;
-    let isFriend;
-    User.find({ _id: { $in: [req.userId, unFrienduserId] } })
-        .then(users => {
-            if (!users) {
-                errorGenerator.userNotFound();
+exports.unfriend = async(req, res, next) => {
+    try {
+        const unFrienduserId = req.params.userId;
+        const users = await User.find({ _id: { $in: [req.userId, unFrienduserId] } });
+        if (users.length < 2) {
+            errorGenerator.userNotFound();
+        }
+        users.map(user => {
+            if (user.friends.length < 0) {
+                errorGenerator.badRequest();
             }
-            users.map(user => {
-                isFriend = (user._id.toString() === req.userId.toString() ? user.friends.includes(unFrienduserId) : user.friends.includes(req.userId));
-                if (!isFriend) {
-                    errorGenerator.badRequest();
-                }
-            });
-            users.map(user => {
-                user._id.toString() === req.userId.toString() ? user.friends.pull(unFrienduserId) : user.friends.pull(req.userId)
-                user.save();
-            });
-            return users;
-        })
-        .then(users => {
-            res.status(200).json({
-                messgae: 'user unfriended'
+            user.friends = user.friends.filter(friend => friend.userId.toString() !== req.userId.toString() && friend.userId.toString() !== unFrienduserId.toString());
+            user.save();
+            //console.log(user.friends);
+        });
+        res.status(200)
+            .json({
+                message: 'user unfriended'
             })
-        })
-        .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
-        })
+
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
 };
 exports.userData = (req, res, next) => {
     const userId = req.params.userId;
-    User.findById(userId, '_id username image')
+    User.findById(userId, '_id firstname lastname image')
         .then(user => {
             if (!user) {
                 errorGenerator.userNotFound();

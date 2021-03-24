@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useParams } from "react-router";
-import './NewPost.css'
-const  NewPost= ({newPost,setNewPost,setPosts,setPostImage}) => {
+import './NewPost.css';
+import openSocket from 'socket.io-client';
+const  NewPost= ({newPost,setNewPost,posts,setPosts,setPostImage}) => {
     const {userId} = useParams();
     const [postClick,setPostClick] = useState(false);
     const [image,setImage] = useState();
@@ -19,7 +20,7 @@ const  NewPost= ({newPost,setNewPost,setPosts,setPostImage}) => {
             body:formData
         })
         .then(res => {
-            console.log(newPost);
+            //console.log(newPost);
             return res.json();
         })
         .then(data =>{
@@ -34,13 +35,11 @@ const  NewPost= ({newPost,setNewPost,setPosts,setPostImage}) => {
     return (  
         <div className="new-post">
             <form onSubmit = {handleNewPost}>
-                <textarea   type="text"
-                            className="new-post-textarea"
+                <textarea   className="new-post-textarea"
                             value={newPost}
                             placeholder = "What's on your mind !"
                             onChange={(e) => setNewPost(e.target.value)}
-                    >
-                </textarea>
+                    />                
                 <input  type='file'
                         className="new-post-input"
                         onChange={(e)=> setImage(e.target.files[0])} />
